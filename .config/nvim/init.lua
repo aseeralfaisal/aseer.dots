@@ -56,7 +56,7 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", {
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("a2fais-highlight-yank", {
+	group = vim.api.nvim_create_augroup("aseeralfaisal-highlight-yank", {
 		clear = true,
 	}),
 	callback = function()
@@ -287,7 +287,7 @@ require("lazy").setup({
 		},
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("a2fais-lsp-attach", {
+				group = vim.api.nvim_create_augroup("aseeralfaisal-lsp-attach", {
 					clear = true,
 				}),
 				callback = function(event)
@@ -340,7 +340,7 @@ require("lazy").setup({
 							event.buf
 						)
 					then
-						local highlight_augroup = vim.api.nvim_create_augroup("a2fais-lsp-highlight", {
+						local highlight_augroup = vim.api.nvim_create_augroup("aseeralfaisal-lsp-highlight", {
 							clear = false,
 						})
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -356,13 +356,13 @@ require("lazy").setup({
 						})
 
 						vim.api.nvim_create_autocmd("LspDetach", {
-							group = vim.api.nvim_create_augroup("a2fais-lsp-detach", {
+							group = vim.api.nvim_create_augroup("aseeralfaisal-lsp-detach", {
 								clear = true,
 							}),
 							callback = function(event2)
 								vim.lsp.buf.clear_references()
 								vim.api.nvim_clear_autocmds({
-									group = "a2fais-lsp-highlight",
+									group = "aseeralfaisal-lsp-highlight",
 									buffer = event2.buf,
 								})
 							end,
@@ -672,13 +672,14 @@ require("lazy").setup({
 	},
 
 	-- ATTACH PLUGINS HERE
-	require("a2fais.plugins.lint"),
-	require("a2fais.plugins.autopairs"),
-	require("a2fais.plugins.gitsigns"),
-	require("a2fais.plugins.neotree"),
-	require("a2fais.plugins.indent-blankline"),
-	require("a2fais.plugins.avante"),
-	require("a2fais.plugins.bufferline"),
+	require("aseeralfaisal.plugins.lint"),
+	require("aseeralfaisal.plugins.autopairs"),
+	require("aseeralfaisal.plugins.gitsigns"),
+	require("aseeralfaisal.plugins.neotree"),
+	require("aseeralfaisal.plugins.indent-blankline"),
+	require("aseeralfaisal.plugins.avante"),
+	require("aseeralfaisal.plugins.bufferline"),
+	require("aseeralfaisal.plugins.codediff"),
 }, {
 	ui = {
 		icons = vim.g.have_nerd_font and {} or {
