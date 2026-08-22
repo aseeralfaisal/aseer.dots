@@ -31,7 +31,7 @@
   },
 
   "memory": {
-    "format": " RAM {}%"
+    "format": "󰘚 RAM {}%"
   },
 
   "clock": {
