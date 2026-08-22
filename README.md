@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/readme-title.svg" alt="Aseer's Dotfiles" width="700">
+  <h2> Aseer's Dotfiles <h2>
   <p><em>A clean, dark desktop setup for Hyprland with Waybar, Wofi, and SwayNC.</em></p>
 </div>
 
