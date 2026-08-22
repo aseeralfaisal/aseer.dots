@@ -273,10 +273,10 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{
-				"williamboman/mason.nvim",
+				"mason-org/mason.nvim",
 				opts = {},
 			},
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			{
@@ -437,24 +437,20 @@ require("lazy").setup({
 				},
 			}
 
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format Lua code
-			})
+			local ensure_installed = vim.tbl_keys(servers)
+
 			require("mason-tool-installer").setup({
-				ensure_installed = ensure_installed,
+				ensure_installed = { "stylua", "markdownlint" },
 			})
 
+			for server_name, server in pairs(servers) do
+				server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+				vim.lsp.config(server_name, server)
+			end
+
 			require("mason-lspconfig").setup({
-				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-				automatic_installation = false,
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
+				ensure_installed = ensure_installed,
+				automatic_enable = ensure_installed,
 			})
 		end,
 	},
@@ -639,10 +635,11 @@ require("lazy").setup({
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
 		build = ":TSUpdate",
-		main = "nvim-treesitter.configs",
-		opts = {
-			ensure_installed = {
+		config = function()
+			local treesitter = require("nvim-treesitter")
+			local parsers = {
 				"bash",
 				"c",
 				"diff",
@@ -654,17 +651,20 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
-			},
-			auto_install = true,
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = {
-				enable = true,
-				disable = { "ruby" },
-			},
-		},
+			}
+
+			treesitter.setup({})
+			treesitter.install(parsers)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("aseeralfaisal-treesitter", { clear = true }),
+				pattern = { "bash", "c", "html", "lua", "markdown", "query", "vim", "vimdoc" },
+				callback = function(event)
+					pcall(vim.treesitter.start, event.buf)
+					vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
+		end,
 	},
 	{
 		"nvim-tree/nvim-web-devicons",

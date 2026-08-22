@@ -1,8 +1,13 @@
-# Hyprland Dotfiles
+<div align="center">
+  <img src="assets/readme-title.svg" alt="Aseer's Dotfiles" width="700">
+  <p><em>A clean, dark desktop setup for Hyprland with Waybar, Wofi, and SwayNC.</em></p>
+</div>
 
-A clean dark desktop setup for Hyprland with Waybar Wofi and SwayNC.
-
-<img width="1420" height="700" alt="2026-08-22-215420_hyprshot" src="https://github.com/user-attachments/assets/96d2aed5-978c-4846-91dc-cfd0b509127b" />
+<p align="center">
+  <a href="https://github.com/user-attachments/assets/96d2aed5-978c-4846-91dc-cfd0b509127b">
+    <img src="https://github.com/user-attachments/assets/96d2aed5-978c-4846-91dc-cfd0b509127b" alt="Hyprland desktop preview" width="100%">
+  </a>
+</p>
 
 ## Hyprland
 
