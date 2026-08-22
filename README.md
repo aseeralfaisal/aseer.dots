@@ -1,5 +1,5 @@
 <div align="center">
-  <h2> Aseer's Dotfiles <h2>
+  <h2> aseer .dots <h2>
   <p><em>A clean, dark desktop setup for Hyprland with Waybar, Wofi, and SwayNC.</em></p>
 </div>
 
