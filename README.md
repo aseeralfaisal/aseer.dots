@@ -2,7 +2,7 @@
 
 A clean dark desktop setup for Hyprland with Waybar Wofi and SwayNC.
 
-![Desktop preview](https://github.com/user-attachments/assets/64026121-ae70-46dd-b7db-f3fe237fd825)
+<img width="1420" height="700" alt="2026-08-22-215420_hyprshot" src="https://github.com/user-attachments/assets/96d2aed5-978c-4846-91dc-cfd0b509127b" />
 
 ## Hyprland
 
