@@ -27,3 +27,59 @@ A clean dark desktop setup for Hyprland with Waybar Wofi and SwayNC.
 
 * Matching charcoal glass style shared with Waybar
 * Violet active states with compact controls and rounded notifications
+
+## Rofi
+
+* Application launcher window switcher file browser and command runner
+* Multiple launcher power menu and utility applet layouts with matching themes
+* Applets for volume brightness battery screenshots music quick links and elevated apps
+
+## Neovim
+
+* Lua configuration with lazy loaded plugins and sensible editing defaults
+* Fuzzy finding completion diagnostics linting formatting and language server support
+* File tree buffer tabs Git signs code diffs automatic pairs and indentation guides
+
+## Terminals
+
+* Ghostty setup with the Aura theme translucent background and Adwaita Mono
+* Kitty setup with a compact borderless translucent window and theme support
+* WezTerm setup with Catppuccin Mocha custom tabs Wayland support and FiraCode Nerd Font
+
+## Shell
+
+* Zsh setup with Starship Zoxide NVM syntax highlighting completions and autosuggestions
+* Eza and Zoxide aliases for richer directory listings and navigation
+* Bash fallback with history completion FZF Cargo and common convenience aliases
+
+## Starship
+
+* Catppuccin Mocha powerline prompt with operating system directory and Git information
+* Language and environment indicators for common development toolchains
+* Command duration notifications and a compact time segment
+
+## Tmux
+
+* Catppuccin Macchiato status bar with rounded window indicators
+* Mouse support and status modules for application CPU session uptime and battery
+* TPM based plugin management
+
+## Fastfetch
+
+* Custom ASCII logo colors labels and separators
+* Detailed system hardware network desktop media and session information
+
+## MPV
+
+* Wayland GPU rendering with automatic hardware decoding
+
+## Waypaper
+
+* Hyprpaper backed wallpaper picker for all monitors
+* Grid browser with fill mode sorting and Wallpaper Engine options
+
+## Utilities
+
+* GNU Stow bootstrap script with optional Zsh shell setup
+* Gemini powered natural language to shell command helper
+* Tracked desktop settings for restoring the wider environment
