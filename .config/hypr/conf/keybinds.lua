@@ -2,9 +2,15 @@ local mainMod = "SUPER"
 
 local terminal = "kitty"
 local fileManager = "nautilus"
+local browser = "brave-origin"
 local menu = os.getenv("HOME") .. "/.config/wofi/launcher"
 local powermenu = os.getenv("HOME") .. "/.config/wofi/powermenu.sh"
-local screenshot = os.getenv("HOME") .. "/.config/hypr/scripts/hyprshot-gradia"
+local screenshotScript = os.getenv("HOME") .. "/.config/hypr/scripts/hyprshot-gradia"
+
+local function takeScreenshot(mode)
+	local command = "sh -c 'pgrep -x hyprshot >/dev/null || exec " .. screenshotScript .. " " .. mode .. "'"
+	return hl.dsp.exec_cmd(command)
+end
 
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.window.close())
@@ -13,15 +19,12 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd(powermenu))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
+hl.bind("PRINT", takeScreenshot("region"))
+hl.bind(mainMod .. " + PRINT", takeScreenshot("output"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(
-	mainMod .. " + R",
-	hl.dsp.exec_cmd("sh -c 'pgrep -x hyprshot >/dev/null || exec " .. screenshot .. " output'")
-)
-hl.bind(
-	mainMod .. " + S",
-	hl.dsp.exec_cmd("sh -c 'pgrep -x hyprshot >/dev/null || exec " .. screenshot .. " region'")
-)
+hl.bind(mainMod .. " + R", takeScreenshot("output"))
+hl.bind(mainMod .. " + S", takeScreenshot("region"))
 
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
