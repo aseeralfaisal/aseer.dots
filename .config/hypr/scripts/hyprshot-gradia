@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mode="${1:?usage: hyprshot-gradia <output|region|window>}"
+screenshot_dir="${HYPRSHOT_DIR:-${HOME}/Pictures/Screenshots}"
+filename="$(date +'%Y-%m-%d-%H%M%S_hyprshot.png')"
+screenshot_path="${screenshot_dir%/}/${filename}"
+freeze_option=()
+
+# Freeze the current frame before slurp takes focus. This keeps transient
+# layer-shell surfaces such as the SwayNC control center in region captures.
+if [[ "${mode}" == "region" ]]; then
+	freeze_option=(--freeze)
+fi
+
+/usr/bin/hyprshot \
+	--mode "${mode}" \
+	"${freeze_option[@]}" \
+	--output-folder "${screenshot_dir}" \
+	--filename "${filename}" \
+	--silent || [[ -f "${screenshot_path}" ]]
+
+selected_action="$(
+	notify-send \
+		--app-name="Hyprshot" \
+		--icon="${screenshot_path}" \
+		--expire-time=5000 \
+		--action="default=Open in Gradia" \
+		"Screenshot saved" \
+		"Image saved in <i>${screenshot_path}</i> and copied to the clipboard."
+)"
+
+if [[ "${selected_action}" == "default" ]]; then
+	exec flatpak run be.alexandervanhee.gradia "${screenshot_path}"
+fi

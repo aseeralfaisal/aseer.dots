@@ -1,44 +1,24 @@
 {
-    // General Settings
     "layer": "top",
-    "margin-top": 0,
+    "margin-top": 4,
     "margin-bottom": 0,
-    "layer": "top",
     "margin-left": 0,
-    "margin-right": 0,    
+    "margin-right": 0,
     "spacing": 0,
 
-    // Load Modules
     "include": [
         "~/.config/waybar/modules.json"
     ],
 
-    // "custom/appmenu",
-    // "custom/terminal",
-    // "custom/nautilus",
-
-    // Modules Left
     "modules-left": [
-        "custom/distrologo",
-        "custom/workspaces",
-        "cpu",
-        "memory",
-        "disk",
+        "group/workspace-strip",
+        "group/resources"
     ],
-
-    // Modules Center
     "modules-center": [
-        "clock",
-        "custom/weather",
+        "group/date-weather"
     ],
-
-    // Modules Right    
     "modules-right": [
-        "pulseaudio",
-        "bluetooth",
-        "battery", 
-	"custom/netspeed",
-        "network",
-        "custom/exit",
+        "group/status",
+        "group/transfers-power"
     ]
 }

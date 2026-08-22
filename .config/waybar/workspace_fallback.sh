@@ -1,31 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Fallback workspace manager using rofi
-# In case Python GTK is not available
+workspaces=$(hyprctl workspaces -j | jq -r '.[].id' | sort -n)
+current=$(hyprctl activeworkspace -j | jq -r '.id')
 
-WORKSPACES=$(hyprctl workspaces -j | jq -r '.[].id' | sort -n)
-CURRENT=$(hyprctl activeworkspace -j | jq -r '.id')
-
-# Create rofi options
-OPTIONS=""
-for ws in $WORKSPACES; do
-    if [ "$ws" = "$CURRENT" ]; then
-        OPTIONS="$OPTIONS󰮯 Workspace $ws (current)\n"
+options=""
+for workspace in $workspaces; do
+    if [[ "$workspace" == "$current" ]]; then
+        options+="󰮯 Workspace $workspace (current)\n"
     else
-        OPTIONS="$OPTIONS󰮮 Workspace $ws\n"
+        options+="󰮮 Workspace $workspace\n"
     fi
 done
+options+="\n󰐕 New workspace\n"
 
-OPTIONS="$OPTIONS\n󰐕 New workspace"
+chosen=$(printf '%b' "$options" | wofi --dmenu --prompt="Workspaces" --cache-file=/dev/null)
 
-# Show rofi menu
-CHOSEN=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "󰮯 Workspaces" -config ~/.config/rofi/config.rasi)
-
-if [[ -n "$CHOSEN" ]]; then
-    if [[ "$CHOSEN" == *"New workspace"* ]]; then
+if [[ -n "$chosen" ]]; then
+    if [[ "$chosen" == *"New workspace"* ]]; then
         hyprctl dispatch workspace +1
-    elif [[ "$CHOSEN" == *"Workspace"* ]]; then
-        WS_NUM=$(echo "$CHOSEN" | grep -o '[0-9]\+')
-        hyprctl dispatch workspace "$WS_NUM"
+    elif [[ "$chosen" == *"Workspace"* ]]; then
+        workspace=$(printf '%s\n' "$chosen" | grep -o '[0-9]\+')
+        hyprctl dispatch workspace "$workspace"
     fi
 fi

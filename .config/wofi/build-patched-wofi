@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+version="1.5.3"
+config_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/wofi"
+work_dir="$(mktemp -d)"
+trap 'rm -rf "${work_dir}"' EXIT
+
+curl -L --fail --max-time 60 \
+	-o "${work_dir}/wofi.tar.gz" \
+	"https://hg.sr.ht/~scoopta/wofi/archive/v${version}.tar.gz"
+mkdir -p "${work_dir}/source"
+tar -xzf "${work_dir}/wofi.tar.gz" -C "${work_dir}/source" --strip-components=1
+patch -d "${work_dir}/source" -p1 <"${config_dir}/wofi-gemini.patch"
+
+CCACHE_DISABLE=1 meson setup "${work_dir}/build" "${work_dir}/source" --buildtype=release
+CCACHE_DISABLE=1 ninja -C "${work_dir}/build"
+strip --strip-unneeded "${work_dir}/build/wofi"
+install -Dm755 "${work_dir}/build/wofi" "${config_dir}/bin/wofi"

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+config_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/wofi"
+cache_file="${XDG_CACHE_HOME:-${HOME}/.cache}/wofi-cache"
+wofi_bin="${WOFI_BIN:-${config_dir}/bin/wofi}"
+
+exec "${wofi_bin}" --show drun --cache-file "${cache_file}"

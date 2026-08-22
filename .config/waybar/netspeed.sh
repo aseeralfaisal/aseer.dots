@@ -1,15 +1,18 @@
 #!/bin/bash
 INTERFACE="wlan0"
+MODE="${1:-both}"
+
 while true; do
-    LINE1=$(cat /proc/net/dev | grep $INTERFACE)
-    RX1=$(echo $LINE1 | awk '{print $2}') 
-    TX1=$(echo $LINE1 | awk '{print $10}')
+    read -r RX1 TX1 < <(awk -v interface="$INTERFACE:" '$1 == interface {print $2, $10}' /proc/net/dev)
     sleep 1
-    LINE2=$(cat /proc/net/dev | grep $INTERFACE)
-    RX2=$(echo $LINE2 | awk '{print $2}')
-    TX2=$(echo $LINE2 | awk '{print $10}')
+    read -r RX2 TX2 < <(awk -v interface="$INTERFACE:" '$1 == interface {print $2, $10}' /proc/net/dev)
 
     DOWN=$(( (RX2 - RX1) / 1024 ))
     UP=$(( (TX2 - TX1) / 1024 ))
-    echo "󰇚 $DOWN kB/s 󰕒 $UP kB/s"
+
+    case "$MODE" in
+        download) echo "󰇚 $DOWN kB/s" ;;
+        upload) echo "󰕒 $UP kB/s" ;;
+        *) echo "󰇚 $DOWN kB/s 󰕒 $UP kB/s" ;;
+    esac
 done

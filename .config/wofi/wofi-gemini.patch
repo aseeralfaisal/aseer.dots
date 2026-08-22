@@ -1,0 +1,210 @@
+--- a/src/wofi.c
++++ b/src/wofi.c
+@@ -118,6 +118,8 @@
+ static GdkModifierType shift_mask = GDK_SHIFT_MASK;
+ static GdkModifierType ctrl_mask = GDK_CONTROL_MASK;
+ static GdkModifierType alt_mask = GDK_MOD1_MASK;
++static bool gemini_view = false;
++static GtkWidget* gemini_result = NULL;
+ 
+ static struct map* keys;
+ static struct map* mods;
+@@ -539,6 +541,116 @@
+ 	return box;
+ }
+ 
++static void set_gemini_result(const char* text) {
++	if(gemini_result != NULL) {
++		gtk_widget_destroy(gemini_result);
++		gemini_result = NULL;
++	}
++
++	GtkWidget* box = wofi_property_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
++	setup_label("gemini", WOFI_PROPERTY_BOX(box));
++	wofi_property_box_add_property(WOFI_PROPERTY_BOX(box), "action", "");
++	wofi_property_box_add_property(WOFI_PROPERTY_BOX(box), "filter", "");
++
++	GtkWidget* label = gtk_label_new(text);
++	gtk_widget_set_name(label, "gemini-answer");
++	gtk_label_set_xalign(GTK_LABEL(label), 0);
++	gtk_label_set_yalign(GTK_LABEL(label), 0);
++	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
++	gtk_label_set_line_wrap_mode(GTK_LABEL(label), PANGO_WRAP_WORD_CHAR);
++	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
++	gtk_widget_set_hexpand(label, TRUE);
++	gtk_container_add(GTK_CONTAINER(box), label);
++
++	GtkWidget* child = gtk_flow_box_child_new();
++	gtk_widget_set_name(child, "entry");
++	gtk_container_add(GTK_CONTAINER(child), box);
++	gtk_widget_show_all(child);
++	gtk_container_add(GTK_CONTAINER(inner_box), child);
++	gemini_result = child;
++	gemini_view = true;
++
++	gtk_flow_box_invalidate_filter(GTK_FLOW_BOX(inner_box));
++	gtk_flow_box_invalidate_sort(GTK_FLOW_BOX(inner_box));
++	GtkAdjustment* adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll));
++	gtk_adjustment_set_value(adjustment, gtk_adjustment_get_lower(adjustment));
++}
++
++static void gemini_finished(GObject* source, GAsyncResult* result, gpointer data) {
++	gchar* question = data;
++	gchar* output = NULL;
++	gchar* errors = NULL;
++	GError* error = NULL;
++	gboolean communicated = g_subprocess_communicate_utf8_finish(
++			G_SUBPROCESS(source), result, &output, &errors, &error);
++
++	if(communicated && g_subprocess_get_successful(G_SUBPROCESS(source))
++			&& output != NULL && strlen(g_strstrip(output)) > 0) {
++		set_gemini_result(output);
++	} else if(errors != NULL && strlen(g_strstrip(errors)) > 0) {
++		set_gemini_result(errors);
++	} else if(error != NULL) {
++		set_gemini_result("Gemini could not be reached. Try again shortly.");
++	} else {
++		set_gemini_result("Gemini returned no answer.");
++	}
++
++	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry), GTK_ENTRY_ICON_SECONDARY,
++			"chat-message-new-symbolic");
++	gtk_entry_set_icon_sensitive(GTK_ENTRY(entry), GTK_ENTRY_ICON_SECONDARY, TRUE);
++	g_clear_error(&error);
++	g_free(output);
++	g_free(errors);
++	g_free(question);
++}
++
++static void ask_gemini(GtkEntry* search_entry, GtkEntryIconPosition position,
++		GdkEvent* event, gpointer data) {
++	(void) event;
++	(void) data;
++	if(position != GTK_ENTRY_ICON_SECONDARY) {
++		return;
++	}
++	if(!gtk_entry_get_icon_sensitive(search_entry, GTK_ENTRY_ICON_SECONDARY)) {
++		return;
++	}
++
++	gchar* question = g_strdup(gtk_entry_get_text(search_entry));
++	g_strstrip(question);
++	if(strlen(question) == 0) {
++		gtk_widget_error_bell(GTK_WIDGET(search_entry));
++		g_free(question);
++		return;
++	}
++
++	gtk_entry_set_icon_sensitive(search_entry, GTK_ENTRY_ICON_SECONDARY, FALSE);
++	gtk_entry_set_icon_from_icon_name(search_entry, GTK_ENTRY_ICON_SECONDARY,
++			"content-loading-symbolic");
++	set_gemini_result("Asking Gemini…");
++
++	gchar* helper = g_build_filename(g_get_home_dir(), ".config", "wofi", "gemini.py", NULL);
++	GError* error = NULL;
++	GSubprocess* process = g_subprocess_new(
++			G_SUBPROCESS_FLAGS_STDIN_PIPE |
++			G_SUBPROCESS_FLAGS_STDOUT_PIPE |
++			G_SUBPROCESS_FLAGS_STDERR_PIPE,
++			&error, "/usr/bin/python3", helper, "--stdio", NULL);
++	g_free(helper);
++
++	if(process == NULL) {
++		set_gemini_result("Gemini could not be started.");
++		gtk_entry_set_icon_from_icon_name(search_entry, GTK_ENTRY_ICON_SECONDARY,
++				"chat-message-new-symbolic");
++		gtk_entry_set_icon_sensitive(search_entry, GTK_ENTRY_ICON_SECONDARY, TRUE);
++		g_clear_error(&error);
++		g_free(question);
++		return;
++	}
++
++	g_subprocess_communicate_utf8_async(process, question, NULL, gemini_finished, question);
++	g_object_unref(process);
++}
++
+ static char* get_cache_path(const gchar* mode) {
+ 	if(cache_file != NULL) {
+ 		return strdup(cache_file);
+@@ -565,7 +677,11 @@
+ 	if(primary_action) {
+ 		box = gtk_expander_get_label_widget(GTK_EXPANDER(box));
+ 	}
+-	execute_action(wofi_property_box_get_property(WOFI_PROPERTY_BOX(box), "mode"), wofi_property_box_get_property(WOFI_PROPERTY_BOX(box), "action"));
++	const gchar* item_mode = wofi_property_box_get_property(WOFI_PROPERTY_BOX(box), "mode");
++	if(item_mode != NULL && strcmp(item_mode, "gemini") == 0) {
++		return;
++	}
++	execute_action(item_mode, wofi_property_box_get_property(WOFI_PROPERTY_BOX(box), "action"));
+ }
+ 
+ static void expand(GtkExpander* expander, gpointer data) {
+@@ -1069,6 +1185,9 @@
+ 
+ static void activate_search(GtkEntry* entry, gpointer data) {
+ 	(void) data;
++	if(gemini_view) {
++		return;
++	}
+ 	GtkFlowBoxChild* child = gtk_flow_box_get_child_at_index(GTK_FLOW_BOX(inner_box), 0);
+ 	gboolean is_visible = gtk_widget_get_visible(GTK_WIDGET(child));
+ 	if(mode != NULL && (exec_search || child == NULL || !is_visible)) {
+@@ -1117,7 +1236,13 @@
+ 
+ static gboolean do_filter(GtkFlowBoxChild* row, gpointer data) {
+ 	(void) data;
+-	gboolean ret = filter_proxy(row);
++	GtkWidget* box = gtk_bin_get_child(GTK_BIN(row));
++	if(GTK_IS_EXPANDER(box)) {
++		box = gtk_expander_get_label_widget(GTK_EXPANDER(box));
++	}
++	const gchar* item_mode = wofi_property_box_get_property(WOFI_PROPERTY_BOX(box), "mode");
++	bool is_gemini = item_mode != NULL && strcmp(item_mode, "gemini") == 0;
++	gboolean ret = gemini_view ? is_gemini : (!is_gemini && filter_proxy(row));
+ 
+ 	do_resize_surface_after_filter(row, ret);
+ 
+@@ -1469,6 +1594,20 @@
+ 	if(gtk_widget_has_focus(entry) && printable) {
+ 		return FALSE;
+ 	}
++	if(event->key.keyval == GDK_KEY_w
++			&& (event->key.state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
++		if(!gtk_widget_has_focus(entry)) {
++			gtk_entry_grab_focus_without_selecting(GTK_ENTRY(entry));
++		}
++		g_signal_emit_by_name(entry, "delete-from-cursor",
++				GTK_DELETE_WORD_ENDS, -1);
++		return TRUE;
++	}
++	if(event->key.keyval == GDK_KEY_Return
++			&& (event->key.state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
++		ask_gemini(GTK_ENTRY(entry), GTK_ENTRY_ICON_SECONDARY, NULL, NULL);
++		return TRUE;
++	}
+ 
+ 	bool key_success = true;
+ 	struct key_entry* key_ent = NULL;
+@@ -2075,6 +2205,14 @@
+ 
+ 	gtk_widget_set_name(entry, "input");
+ 	gtk_entry_set_placeholder_text(GTK_ENTRY(entry), prompt);
++	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry), GTK_ENTRY_ICON_PRIMARY,
++			"system-search-symbolic");
++	gtk_entry_set_icon_activatable(GTK_ENTRY(entry), GTK_ENTRY_ICON_PRIMARY, FALSE);
++	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry), GTK_ENTRY_ICON_SECONDARY,
++			"chat-message-new-symbolic");
++	gtk_entry_set_icon_tooltip_text(GTK_ENTRY(entry), GTK_ENTRY_ICON_SECONDARY,
++			"Ask Gemini");
++	gtk_entry_set_icon_activatable(GTK_ENTRY(entry), GTK_ENTRY_ICON_SECONDARY, TRUE);
+ 	gtk_container_add(GTK_CONTAINER(outer_box), entry);
+ 
+ 	if(search != NULL) {
+@@ -2114,6 +2252,7 @@
+ 	g_signal_connect(inner_box, "child-activated", G_CALLBACK(activate_item), NULL);
+ 	g_signal_connect(inner_box, "selected-children-changed", G_CALLBACK(select_item), NULL);
+ 	g_signal_connect(entry, "activate", G_CALLBACK(activate_search), NULL);
++	g_signal_connect(entry, "icon-press", G_CALLBACK(ask_gemini), NULL);
+ 	g_signal_connect(window, "key-press-event", G_CALLBACK(key_press), NULL);
+ 	g_signal_connect(window, "focus-in-event", G_CALLBACK(focus), NULL);
+ 	g_signal_connect(window, "focus-out-event", G_CALLBACK(focus), config);

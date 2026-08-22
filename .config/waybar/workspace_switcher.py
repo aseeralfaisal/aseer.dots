@@ -76,14 +76,14 @@ class WorkspaceSwitcher(Adw.ApplicationWindow):
         css_provider = Gtk.CssProvider()
         css = """
             window {
-                background: rgba(30, 30, 40, 0.85);
+                background: rgba(24, 24, 32, 0.85);
                 border-radius: 20px;
                 backdrop-filter: blur(20px);
                 -gtk-window-border-radius: 20px;
             }
             
             .workspace-card {
-                background: rgba(45, 45, 55, 0.7);
+                background: rgba(36, 36, 44, 0.7);
                 border-radius: 12px;
                 padding: 20px;
                 min-width: 120px;
@@ -93,13 +93,13 @@ class WorkspaceSwitcher(Adw.ApplicationWindow):
             }
             
             .workspace-card:hover {
-                background: rgba(65, 65, 75, 0.8);
+                background: rgba(52, 52, 60, 0.8);
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 transform: translateY(-2px);
             }
             
             .workspace-card.active {
-                background: rgba(100, 100, 255, 0.3);
+                background: rgba(80, 80, 204, 0.3);
                 border: 2px solid rgba(100, 100, 255, 0.6);
             }
             
@@ -128,7 +128,7 @@ class WorkspaceSwitcher(Adw.ApplicationWindow):
             }
             
             button {
-                background: rgba(55, 55, 65, 0.7);
+                background: rgba(44, 44, 52, 0.7);
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 border-radius: 8px;
                 color: #ffffff;
@@ -137,17 +137,17 @@ class WorkspaceSwitcher(Adw.ApplicationWindow):
             }
             
             button:hover {
-                background: rgba(75, 75, 85, 0.8);
+                background: rgba(60, 60, 68, 0.8);
                 border: 1px solid rgba(255, 255, 255, 0.2);
             }
             
             button.suggested-action {
-                background: rgba(100, 100, 255, 0.3);
+                background: rgba(80, 80, 204, 0.3);
                 border: 1px solid rgba(100, 100, 255, 0.6);
             }
             
             button.suggested-action:hover {
-                background: rgba(120, 120, 255, 0.4);
+                background: rgba(96, 96, 204, 0.4);
             }
         """
         css_provider.load_from_data(css.encode())

@@ -1,5 +1,4 @@
 {
-  // Hyprland Workspaces
   "hyprland/workspaces": {
     "format": "{id}",
     "format-icons": {
@@ -11,115 +10,30 @@
       "1": [],
       "2": [],
       "3": [],
-      "4": [],
-      "5": [],
-      "6": [],
-      "7": [],
-      "8": [],
-      "9": [],
-      "10": []
-    }
+      "4": []
+    },
+    "ignore-workspaces": ["^(?:[5-9]|[1-9][0-9]+)$"]
   },
 
-  // Hyprland Window
-  "hyprland/window": {
-    "format": "{}",
-    "icon": true
+  "custom/workspace-overflow": {
+    "format": "…",
+    "tooltip-format": "More workspaces",
+    "on-click": "~/.config/waybar/workspace_fallback.sh"
   },
 
-  // Empty
-  "custom/empty": {
-    "format": ""
+  "cpu": {
+    "format": "󰍛 CPU {usage}%"
   },
 
-  // weather
-  "custom/weather": {
-    "format": "{}",
-    "exec": "~/.config/waybar/weather.sh",
-    "interval": 300,
-    "on-click": "gnome-weather",
-    "tooltip-format": "Weather"
-  },
-  // Tools
-  "custom/tools": {
-    "format": "",
-    "tooltip-format": "Tools"
+  "disk": {
+    "interval": 30,
+    "format": "󰋊 Disk {percentage_used}%"
   },
 
-  // Nautilus
-  "custom/nautilus": {
-    "format": "󱧶 ",
-    "on-click": "nautilus",
-    "tooltip-format": "Files"
+  "memory": {
+    "format": " RAM {}%"
   },
 
-  // Distro Logo
-  "custom/distrologo": {
-    "format": "󰣇 ",
-    "tooltip-format": "Arch BTW"
-  },
-
-  // Terminal
-  "custom/terminal": {
-    "format": "",
-    "on-click": "kitty",
-    "tooltip-format": "Terminal"
-  },
-
-  // Rofi Application Launcher
-  "custom/appmenu": {
-    // START APPS LABEL
-    "format": "",
-    // END APPS LABEL
-    "on-click": "~/.config/rofi/launchers/type-6/launcher.sh",
-    "tooltip-format": "Left: Open the application launcher\nRight: Show all keybindings"
-  },
-
-  // Power Menu
-  "custom/exit": {
-    "format": "󰐦",
-    "on-click": "~/.config/wofi/powermenu.sh",
-    "tooltip-format": "Power Menu"
-  },
-
-  // Hyprshade
-  "custom/hyprshade": {
-    "format": "",
-    "tooltip-format": "Toggle Screen Shader",
-    "on-click": "sleep 0.5; ~/.config/hypr/scripts/hyprshade.sh",
-    "on-click-right": "sleep 0.5; ~/.config/hypr/scripts/hyprshade.sh rofi"
-  },
-
-  // Hypridle inhibitor
-  "custom/hypridle": {
-    "format": "",
-    "return-type": "json",
-    "escape": true,
-    "exec-on-event": true,
-    "interval": 60,
-    "exec": "~/.config/hypr/scripts/hypridle.sh status",
-    "on-click": "~/.config/hypr/scripts/hypridle.sh toggle",
-    "on-click-right": "hyprlock"
-  },
-
-  // Keyboard State
-  "keyboard-state": {
-    "numlock": true,
-    "capslock": true,
-    "format": "{name} {icon}",
-    "format-icons": {
-      "locked": "",
-      "unlocked": ""
-    }
-  },
-
-  // System tray
-  "tray": {
-    "icon-size": 21,
-    "spacing": 10
-  },
-
-  // Clock
   "clock": {
     "format": "{:%H:%M · %a %d %b}",
     "format-alt": "{:%A, %B %d, %Y}",
@@ -128,71 +42,17 @@
     "tooltip-format": "{:%A, %B %d, %Y}"
   },
 
-  // System
-  "custom/system": {
-    "format": "C",
-    "tooltip": false
+  "custom/weather": {
+    "format": "{}",
+    "exec": "~/.config/waybar/weather.sh",
+    "interval": 300,
+    "on-click": "gnome-weather",
+    "tooltip-format": "Weather"
   },
 
-  // Harddisc space used
-  "disk": {
-    "interval": 30,
-    "format": "󰋊 Disk {percentage_used}%"
-    //"path": "/",
-  },
-
-  "hyprland/language": {
-    "format": "/ K {short}"
-  },
-
-  // Group Hardware
-  "group/hardware": {
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 300,
-      "children-class": "not-memory",
-      "transition-left-to-right": false
-    },
-    "modules": ["custom/system", "disk", "cpu", "memory", "hyprland/language"]
-  },
-
-  // Group Tools
-  "group/tools": {
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 300,
-      "children-class": "not-memory",
-      "transition-left-to-right": false
-    },
-    "modules": [
-      "custom/tools",
-      "custom/cliphist",
-      "custom/hypridle",
-      "custom/hyprshade"
-    ]
-  },
-
-  // Common App group
-  "group/commons": {
-    "orientation": "horizontal",
-    "modules": ["custom/settings", "custom/wallpaper"]
-  },
-
-  // Group Settings
-  "group/settings": {
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 300,
-      "children-class": "not-memory",
-      "transition-left-to-right": true
-    },
-    "modules": ["custom/settings", "custom/waybarthemes", "custom/wallpaper"]
-  },
-
-  // Network
   "network": {
     "format": "{ifname}",
-    "format-wifi": " {essid}", //{signalStrength}% essid
+    "format-wifi": " {essid}",
     "format-ethernet": "  {ifname}",
     "format-disconnected": "Disconnected ⚠",
     "tooltip-format": " {ifname} via {gwaddri}",
@@ -203,25 +63,17 @@
     "on-click": "ghostty -e iwctl"
   },
 
-  // Battery
-  "battery": {
-    "states": {
-      // "good": 95,
-      "warning": 30,
-      "critical": 15
-    },
-    "format": "{icon} {capacity}%",
-    "format-charging": "  {capacity}%",
-    "format-plugged": "  {capacity}%",
-    "format-alt": "{icon}  {time}",
-    // "format-good": "", // An empty format will hide the module
-    // "format-full": "",
-    "format-icons": [" ", " ", " ", " ", " "]
+  "bluetooth": {
+    "format": " On",
+    "format-connected": " Active",
+    "format-disabled": "",
+    "format-off": "",
+    "interval": 30,
+    "on-click": "blueman-manager",
+    "format-no-controller": ""
   },
 
-  // Pulseaudio
   "pulseaudio": {
-    // "scroll-step": 1, // %, can be a float
     "format": "{icon} Vol {volume}%",
     "format-bluetooth": "{icon} {volume}%",
     "format-bluetooth-muted": "{icon} {format_source}",
@@ -234,65 +86,64 @@
       "headset": "󰋋",
       "phone": "󰘛",
       "portable": "󰘛",
-      "car": "� Infant",
+      "car": "",
       "default": ["󰕿", "󰖀", "󰕾"]
     },
     "on-click": "pavucontrol"
   },
 
-  // CPU
-  "cpu": {
-    "format": "󰍛 CPU {usage}%"
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-alt": "{icon}  {time}",
+    "format-icons": [" ", " ", " ", " ", " "]
   },
 
-  "custom/netspeed": {
+  "custom/download": {
     "format": "{}",
-    "exec": "~/.config/waybar/netspeed.sh",
+    "exec": "~/.config/waybar/netspeed.sh download",
+    "tooltip-format": "Download speed"
   },
 
-  // MEMORY
-  "memory": {
-    "format": " RAM {}%"
+  "custom/upload": {
+    "format": "{}",
+    "exec": "~/.config/waybar/netspeed.sh upload",
+    "tooltip-format": "Upload speed"
   },
 
-  // Bluetooth
-  "bluetooth": {
-    "format": " On",
-    "format-connected": " Active",
-    "format-disabled": "",
-    "format-off": "",
-    "interval": 30,
-    "on-click": "blueman-manager",
-    "format-no-controller": ""
+  "custom/exit": {
+    "format": "󰐦",
+    "on-click": "~/.config/wofi/powermenu.sh",
+    "tooltip-format": "Power Menu"
   },
 
-  // Other
-  "user": {
-    "format": "{user}",
-    "interval": 60,
-    "icon": false
+  "group/workspace-strip": {
+    "orientation": "horizontal",
+    "modules": ["hyprland/workspaces", "custom/workspace-overflow"]
   },
 
-  // backlight:
-  "backlight": {
-    "format": "{icon} {percent}%",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "scroll-step": 1
+  "group/resources": {
+    "orientation": "horizontal",
+    "modules": ["cpu", "disk", "memory"]
+  },
+
+  "group/date-weather": {
+    "orientation": "horizontal",
+    "modules": ["clock", "custom/weather"]
+  },
+
+  "group/status": {
+    "orientation": "horizontal",
+    "modules": ["network", "bluetooth", "pulseaudio", "battery"]
+  },
+
+  "group/transfers-power": {
+    "orientation": "horizontal",
+    "modules": ["custom/download", "custom/upload", "custom/exit"]
   }
 }

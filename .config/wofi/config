@@ -4,7 +4,7 @@ width=500
 height=600
 location=center
 lines=12
-columns=2
+columns=1
 
 # Appearance & Behavior
 allow_images=true
@@ -12,11 +12,12 @@ image_size=32
 no_actions=true
 insensitive=true
 hide_scroll=true
-dynamic=true
+dynamic_lines=false
+use_search_box=false
 term=foot
 
 # Formatting & Cache
-drun-display-format={name} <span color="#505050">[{exec}]</span>
+drun-display-format={name} <span color="#bbbbbb">[{exec}]</span>
 cache_file=/home/aseeralfaisal/.cache/wofi-cache
 
 # Keybindings

@@ -4,187 +4,125 @@
 
 window#waybar {
   background-color: transparent;
-  padding: 10px;
+  padding: 2px 10px 10px;
 }
 
 .modules-left {
-  margin-top: 8px;
+  margin-top: 0;
   padding-left: 14px;
-  border-radius: 12px;
-}
-
-#clock {
-  background-color: rgba(30, 30, 40, 0.7);
-  margin-top: 8px;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  border-radius: 12px;
-}
-
-#custom-weather {
-  background-color: rgba(30, 30, 40, 0.7);
-  margin-top: 8px;
-  margin-left: 12px;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  border-radius: 12px;
-}
-
-#custom-netspeed {
-  background-color: rgba(30, 30, 40, 0.7);
-  margin-right: 14px;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  border-radius: 12px;
 }
 
 .modules-right {
-  margin-top: 8px;
+  margin-top: 0;
   padding-right: 12px;
-  border-radius: 12px;
 }
 
-#cpu {
-  background-color: rgba(30, 30, 40, 0.7);
+#workspace-strip,
+#resources,
+#date-weather,
+#status,
+#transfers-power {
+  background-color: rgba(24, 24, 32, 0.7);
+  border-radius: 12px;
+  color: #ffffff;
   font-size: 15px;
   font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  margin-right: 10px;
-  margin-left: 12px;
-  border-radius: 12px;
+  padding: 2px;
 }
 
-#memory {
-  background-color: rgba(30, 30, 40, 0.7);
+#workspace-strip {
+  font-style: normal;
+  margin: 0 8px 0 0;
+}
+
+#resources {
+  margin-left: 12px;
+}
+
+#status {
+  margin-right: 12px;
+}
+
+#resources #cpu,
+#resources #memory,
+#resources #disk,
+#date-weather #clock,
+#date-weather #custom-weather,
+#status #network,
+#status #bluetooth,
+#status #pulseaudio,
+#status #battery,
+#transfers-power #custom-download,
+#transfers-power #custom-upload,
+#transfers-power #custom-exit {
+  background-color: rgba(204, 204, 204, 0.06);
+  border-radius: 9px;
+  color: #ffffff;
   font-size: 15px;
   font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  margin-right: 10px;
-  margin-left: 12px;
-  border-radius: 12px;
+  margin: 0 1px;
+  padding: 2px 9px;
 }
 
-#disk {
-  background-color: rgba(30, 30, 40, 0.7);
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  margin-right: 10px;
-  margin-left: 12px;
-  border-radius: 12px;
+#resources #cpu,
+#date-weather #clock,
+#status #network,
+#transfers-power #custom-download {
+  margin-left: 0;
 }
 
-#pulseaudio {
-  background-color: rgba(30, 30, 40, 0.7);
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  margin-right: 10px;
-  margin-left: 12px;
-  border-radius: 12px;
+#resources #memory,
+#date-weather #custom-weather,
+#status #battery,
+#transfers-power #custom-exit {
+  margin-right: 0;
 }
-
-#bluetooth,
-#bluetooth.on,
-#bluetooth.connected {
-  background-color: rgba(30, 30, 40, 0.7);
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  margin-right: 10px;
-  margin-left: 12px;
-  border-radius: 12px;
-}
-
-#network {
-  background-color: rgba(30, 30, 40, 0.7);
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  margin-right: 10px;
-  margin-left: 12px;
-  border-radius: 12px;
-}
-
-
-
-#custom-distrologo {
-  background-color: rgba(30, 30, 40, 0.7);
-  color: white;
-  padding: 0 7px 0 12px;
-  border-radius: 12px;
-  font-size: 20px;
-  margin-right: 8px;
-}
-
-#custom-exit {
-  background-color: rgba(30, 30, 40, 0.7);
-  font-size: 17px;
-  font-weight: bold;
-  padding: 4px 15px 4px 15px;
-  color: #ffffff;
-  opacity: 0.9;
-  border-radius: 12px;
-}
-
-/* -----------------------------------------------------
- * Workspaces 
- * ----------------------------------------------------- */
 
 #workspaces {
-  font-weight: normal;
-  font-style: normal;
-  opacity: 1;
-  border-radius: 12px;
-  margin: 0;
   background: transparent;
-  padding: 0;
 }
 
 #workspaces button {
+  background: transparent;
   border: 0;
-  border-radius: 12px;
-  font-weight: bold;
+  border-radius: 10px;
+  color: #bbbbbb;
   font-size: 15px;
-  color: white;
+  font-weight: bold;
+  margin: 0;
+  padding: 2px 10px;
   transition: none;
-  background: rgba(30, 30, 40, 0.7);
-  margin: 8px 0 8px 0;
-  padding: 4px 10px 4px 10px;
 }
 
 #workspaces button.active {
+  background: rgba(80, 80, 204, 0.65);
   color: white;
-  background: rgba(30, 30, 40, 0.7);
 }
 
+#custom-workspace-overflow {
+  border-radius: 10px;
+  color: #bbbbbb;
+  font-size: 15px;
+  font-weight: bold;
+  min-width: 14px;
+  padding: 2px 8px 2px 5px;
+}
+
+#custom-workspace-overflow:hover,
 #workspaces button:hover {
-  background: rgba(55, 55, 55, 0.9);
-  transition: none;
+  background: rgba(44, 44, 44, 0.9);
 }
 
-/* -----------------------------------------------------
- * Tooltips
- * ----------------------------------------------------- */
+#custom-workspace-overflow:hover {
+  color: #ffffff;
+}
 
 tooltip {
+  background-color: rgba(26, 26, 26, 0.95);
   border-radius: 4px;
-  background-color: rgba(33, 33, 33, 0.95);
+  margin: 0;
   opacity: 0.95;
   padding: 16px;
-  margin: 0px;
 }
 
 tooltip label {
@@ -193,56 +131,18 @@ tooltip label {
   font-weight: bold;
 }
 
-
-
-
-
-/* -----------------------------------------------------
- * Modules
- * ----------------------------------------------------- */
-
 .modules-left > widget:first-child > #workspaces {
-  margin-left: 0px;
+  margin-left: 0;
 }
 
 .modules-right > widget:last-child > #workspaces {
   margin-right: 0;
 }
 
-/* -----------------------------------------------------
- * Custom Quicklinks
- * ----------------------------------------------------- */
-
-#battery {
-  background-color: rgba(30, 30, 40, 0.7);
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  opacity: 0.9;
-  border-radius: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#custom-workspaces {
-  background-color: rgba(30, 30, 40, 0.7);
-  font-size: 15px;
-  font-weight: bold;
-  padding: 4px 10px 4px 10px;
-  color: #ffffff;
-  opacity: 0.9;
-  border-radius: 12px;
-  transition: none;
-}
-
-#custom-workspaces span {
-  transition: none;
-}
-
-#custom-workspaces:hover,
 #clock:hover,
 #custom-weather:hover,
-#custom-netspeed:hover,
+#custom-download:hover,
+#custom-upload:hover,
 #cpu:hover,
 #memory:hover,
 #disk:hover,
@@ -251,52 +151,15 @@ tooltip label {
 #network:hover,
 #battery:hover,
 #custom-exit:hover {
-  background: rgba(55, 55, 55, 0.9);
+  background: rgba(44, 44, 44, 0.9);
   transition: ease-out 0.1s all;
 }
 
-
-
-/* #custom-hypridle.active { */
-/*   color: @iconcolor; */
-/* } */
-
-
-
-
-
-/* -----------------------------------------------------
- * Custom Modules
- * ----------------------------------------------------- */
-
-
-
-
-
-
-
-
-
-/* #pulseaudio.muted { */
-/*   background-color: @backgrounddark; */
-/*   color: @textcolor1; */
-/* } */
-
-
-
-
-
-/* -----------------------------------------------------
- * Battery
- * ----------------------------------------------------- */
-
 #battery.critical:not(.charging) {
-  background-color: rgba(30, 30, 40, 0.7);
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
   animation-direction: alternate;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-name: blink;
+  animation-timing-function: linear;
+  background-color: rgba(24, 24, 32, 0.7);
 }
-
-
