@@ -1,0 +1,26 @@
+/* SwayNC panel colors, typography and card spacing. */
+* {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffffff;
+  outline: none;
+}
+window {
+  background: rgba(24, 24, 32, 0.98);
+  border: none;
+  border-radius: 10px;
+}
+#outer-box { padding: 10px; }
+#scroll, #inner-box { background: transparent; border: none; }
+#entry {
+  margin: 6px 0 0;
+  padding: 14px 12px;
+  min-height: 32px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(204, 204, 204, 0.06);
+}
+#entry:selected, #entry:hover { background: rgba(44, 44, 44, 0.90); }
+#text { margin: 0; }
+#input { margin: 0; padding: 8px; background: rgba(204, 204, 204, 0.06); border: none; }

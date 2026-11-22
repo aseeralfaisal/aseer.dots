@@ -10,6 +10,13 @@ hl.monitor({
 	scale = 1.2,
 })
 
+hl.monitor({
+	output = "HDMI-A-1",
+	mode = "preferred",
+	position = "auto",
+	scale = 1,
+})
+
 ------------------
 -- AUTOSTART
 ------------------
@@ -19,7 +26,8 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("waypaper --restore")
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
-	hl.exec_cmd("swaync")
+	hl.exec_cmd("systemctl --user start cliphist.service")
+	hl.exec_cmd("systemctl --user start org.freedesktop.IBus.session.generic.service")
 end)
 
 ------------------

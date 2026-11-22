@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Keep text and image clipboard selections in cliphist's persistent history.
+wl-paste --type text --watch cliphist store &
+text_pid=$!
+wl-paste --type image --watch cliphist store &
+image_pid=$!
+
+cleanup() {
+    kill "$text_pid" "$image_pid" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
+
+wait -n "$text_pid" "$image_pid"

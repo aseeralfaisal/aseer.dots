@@ -19,13 +19,18 @@ fi
 	"${freeze_option[@]}" \
 	--output-folder "${screenshot_dir}" \
 	--filename "${filename}" \
-	--silent || [[ -f "${screenshot_path}" ]]
+	--silent || true
 
+# Escape cancels region selection. Do not notify or open Gradia when no image
+# was created.
+[[ -f "${screenshot_path}" ]] || exit 0
+
+# Let SwayNC time out the popup. An explicit notify-send timeout also stops
+# listening for actions, leaving the entry in notification history unclickable.
 selected_action="$(
 	notify-send \
 		--app-name="Hyprshot" \
 		--icon="${screenshot_path}" \
-		--expire-time=5000 \
 		--action="default=Open in Gradia" \
 		"Screenshot saved" \
 		"Image saved in <i>${screenshot_path}</i> and copied to the clipboard."

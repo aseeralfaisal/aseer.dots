@@ -6,6 +6,7 @@ local browser = "brave-origin"
 local menu = os.getenv("HOME") .. "/.config/wofi/launcher"
 local powermenu = os.getenv("HOME") .. "/.config/wofi/powermenu.sh"
 local screenshotScript = os.getenv("HOME") .. "/.config/hypr/scripts/hyprshot-gradia"
+local clipboardHistory = os.getenv("HOME") .. "/.config/hypr/scripts/cliphist-wofi"
 
 local function takeScreenshot(mode)
 	local command = "sh -c 'pgrep -x hyprshot >/dev/null || exec " .. screenshotScript .. " " .. mode .. "'"
@@ -16,6 +17,7 @@ hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.exit())
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(clipboardHistory))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd(powermenu))
@@ -31,11 +33,32 @@ hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 
-for i = 1, 10 do
-	local key = i % 10
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+local function workspaceOnCurrentMonitor(slot)
+	local monitor = hl.get_active_monitor()
+	if monitor ~= nil and monitor.name ~= "eDP-1" then
+		return slot + 10
+	end
+	return slot
 end
+
+for i = 1, 10 do
+	hl.workspace_rule({ workspace = tostring(i), monitor = "eDP-1" })
+	hl.workspace_rule({ workspace = tostring(i + 10), monitor = "HDMI-A-1" })
+end
+
+for i = 1, 10 do
+	local slot = i
+	local key = slot % 10
+	hl.bind(mainMod .. " + " .. key, function()
+		hl.dispatch(hl.dsp.focus({ workspace = workspaceOnCurrentMonitor(slot) }))
+	end)
+	hl.bind(mainMod .. " + SHIFT + " .. key, function()
+		hl.dispatch(hl.dsp.window.move({ workspace = workspaceOnCurrentMonitor(slot) }))
+	end)
+end
+
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ monitor = "eDP-1" }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ monitor = "HDMI-A-1" }))
 
 hl.bind(mainMod .. " + SHIFT + CTRL + right", hl.dsp.window.resize({ x = 10, y = 0 }))
 hl.bind(mainMod .. " + SHIFT + CTRL + left", hl.dsp.window.resize({ x = -10, y = 0 }))

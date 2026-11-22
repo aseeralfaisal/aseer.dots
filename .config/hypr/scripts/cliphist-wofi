@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+config_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/wofi"
+wofi_bin="${WOFI_BIN:-${config_dir}/bin/wofi}"
+preview_dir=$(mktemp -d "${XDG_RUNTIME_DIR:-/tmp}/cliphist-preview.XXXXXX")
+trap 'rm -rf -- "${preview_dir}"' EXIT
+
+# Keep original records separate from their presentation, including image rows.
+mapfile -t records < <(cliphist list)
+((${#records[@]})) || exit 0
+for record in "${records[@]}"; do
+    id=${record%%$'\t'*}
+    content=${record#*$'\t'}
+    if [[ "$id" =~ ^[0-9]+$ && "$content" == "[[ binary data "* ]]; then
+        preview="${preview_dir}/${id}"
+        if cliphist decode <<<"${record}" >"${preview}" &&
+            [[ $(file --brief --mime-type "${preview}") == image/* ]]; then
+            printf 'img:%s\n' "${preview}"
+            continue
+        fi
+    fi
+    printf '%s\n' "${content}"
+done >"${preview_dir}/entries"
+
+selection=$("${wofi_bin}" --dmenu \
+    --conf "${config_dir}/config" \
+    --style "${config_dir}/style.css" \
+    --prompt "Clipboard" \
+    --cache-file /dev/null \
+    --lines 0 \
+    --columns 1 \
+    --width 660 \
+    --height 600 \
+    --no-custom-entry \
+    --no-actions \
+    --allow-images \
+    --define image_size=112 \
+    --define content_halign=fill \
+    --define single_click=true \
+    --define clipboard_reset=true \
+    --define dmenu-print_line_num=true <"${preview_dir}/entries") || exit 0
+
+if [[ "${selection}" == "__CLIPHIST_RESET__" ]]; then
+    cliphist wipe
+    exit 0
+fi
+
+if [[ "${selection}" =~ ^[0-9]+$ ]] && ((selection < ${#records[@]})); then
+    cliphist decode <<<"${records[selection]}" | wl-copy
+fi

@@ -9,6 +9,23 @@
  
  static struct map* keys;
  static struct map* mods;
+@@ -365,11 +367,15 @@
+ 					gtk_widget_set_name(label, "text");
+ 					gtk_label_set_use_markup(GTK_LABEL(label), allow_markup);
+ 					gtk_label_set_xalign(GTK_LABEL(label), 0);
++					gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_END);
++					gtk_label_set_single_line_mode(GTK_LABEL(label), TRUE);
++					gtk_label_set_max_width_chars(GTK_LABEL(label), 14);
+ 					if(line_wrap >= 0) {
+ 						gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+ 						gtk_label_set_line_wrap_mode(GTK_LABEL(label), line_wrap);
+ 					}
+-					gtk_container_add(GTK_CONTAINER(box), label);
++					gtk_widget_set_hexpand(label, TRUE);
++					gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
+ 				} else {
+ 					char* tmp = ret;
+ 					ret = utils_concat(2, ret, data1);
 @@ -539,6 +541,116 @@
  	return box;
  }
@@ -139,7 +156,7 @@
  }
  
  static void expand(GtkExpander* expander, gpointer data) {
-@@ -1069,6 +1185,9 @@
+@@ -1069,6 +1186,9 @@
  
  static void activate_search(GtkEntry* entry, gpointer data) {
  	(void) data;
@@ -200,7 +217,16 @@
  	gtk_container_add(GTK_CONTAINER(outer_box), entry);
  
  	if(search != NULL) {
-@@ -2114,6 +2252,7 @@
+@@ -2096,6 +2235,8 @@
+ 	inner_box = gtk_flow_box_new();
+ 	gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(inner_box), GTK_SELECTION_BROWSE);
+ 	gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(inner_box), columns);
++	gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(inner_box), columns);
++	gtk_flow_box_set_homogeneous(GTK_FLOW_BOX(inner_box), TRUE);
+ 	gtk_orientable_set_orientation(GTK_ORIENTABLE(inner_box), orientation);
+ 	gtk_widget_set_halign(inner_box, halign);
+ 	gtk_widget_set_valign(inner_box, valign);
+@@ -2114,6 +2255,7 @@
  	g_signal_connect(inner_box, "child-activated", G_CALLBACK(activate_item), NULL);
  	g_signal_connect(inner_box, "selected-children-changed", G_CALLBACK(select_item), NULL);
  	g_signal_connect(entry, "activate", G_CALLBACK(activate_search), NULL);

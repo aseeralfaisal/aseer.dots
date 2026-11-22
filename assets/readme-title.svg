@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="130" viewBox="0 0 900 130" role="img" aria-labelledby="title description">
+  <title id="title">Aseer's Dotfiles</title>
+  <desc id="description">An italic amber, violet, and blue gradient wordmark.</desc>
+  <defs>
+    <linearGradient id="wallpaper-gradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f0b35a"/>
+      <stop offset="0.5" stop-color="#8f7cff"/>
+      <stop offset="1" stop-color="#28b9ff"/>
+    </linearGradient>
+    <filter id="soft-glow" x="-10%" y="-30%" width="120%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <text x="450" y="82" text-anchor="middle" fill="url(#wallpaper-gradient)" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="72" font-style="italic" font-weight="750" letter-spacing="-2" filter="url(#soft-glow)">Aseer's Dotfiles</text>
+  <rect x="335" y="108" width="230" height="4" rx="2" fill="url(#wallpaper-gradient)" opacity="0.9"/>
+</svg>

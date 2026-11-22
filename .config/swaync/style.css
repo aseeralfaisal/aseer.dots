@@ -10,7 +10,7 @@
 
 * {
   all: unset;
-  font-family: "Adwaita Mono";
+  font-family: "Inter", sans-serif;
   font-size: 15px;
   font-weight: bold;
   color: @text;

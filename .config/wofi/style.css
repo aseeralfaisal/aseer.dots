@@ -1,50 +1,61 @@
-/* Waybar companion: the same glass panel, inner tiles, and active violet. */
+/* Match Waybar's charcoal pills, subtle dividers, and violet selection. */
 * {
-  font-family: "Adwaita Mono";
-  font-size: 15px;
-  font-weight: bold;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 window {
   margin: 10px;
-  padding: 2px;
+  padding: 0;
   border: none;
-  border-radius: 12px;
-  background-color: rgba(24, 24, 32, 0.775);
+  border-radius: 0;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
   color: #ffffff;
 }
 
 #outer-box {
-  padding: 2px;
+  /* Widget margins reserve real drawing space for the full shadow fade. */
+  margin: 18px;
+  padding: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 11px;
+  background-color: #292b32;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.40);
 }
 
 #input {
-  margin: 4px;
-  padding: 8px 10px;
+  margin: 3px 3px 8px;
+  padding: 10px 9px;
   border: none;
-  border-radius: 9px;
-  background-color: rgba(204, 204, 204, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 7px;
+  background-color: transparent;
+  background-image: none;
   color: #ffffff;
   outline: none;
   box-shadow: none;
 }
 
 #input:focus {
-  background-color: rgba(44, 44, 44, 0.90);
+  background-color: transparent;
+  border-bottom-color: #5750b2;
 }
 
 #input image.left {
   margin-left: 4px;
   min-width: 15px;
   min-height: 15px;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.60);
 }
 
 #input image.right {
   margin-right: 4px;
   min-width: 16px;
   min-height: 16px;
-  color: #bbbbbb;
+  color: #d6d6d6;
 }
 
 #input image.right:hover {
@@ -52,33 +63,49 @@ window {
 }
 
 #scroll {
-  margin-top: 2px;
+  margin: 0 0 3px;
   background-color: transparent;
 }
 
+/* Continuous dividers between the three app columns, like Waybar's pills. */
+#inner-box {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.10)),
+    linear-gradient(to right, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.10));
+  background-size: 1px 100%, 1px 100%;
+  background-position: 33.333333% 0, 66.666667% 0;
+  background-repeat: no-repeat;
+}
+
 #entry {
-  margin: 2px 4px;
-  padding: 7px 9px;
+  margin: 2px 3px;
+  padding: 9px;
   border: none;
-  border-radius: 9px;
-  background-color: rgba(204, 204, 204, 0.06);
-  color: #bbbbbb;
+  border-radius: 7px;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  color: #ffffff;
   outline: none;
 }
 
 #entry:hover {
-  background-color: rgba(44, 44, 44, 0.90);
+  background-color: #443365;
   color: #ffffff;
 }
 
 #entry:selected {
-  background-color: rgba(80, 80, 204, 0.65);
+  background-color: #5750b2;
   color: #ffffff;
 }
 
 #text {
-  margin: 3px 7px;
+  margin: 1px 5px;
   color: inherit;
+}
+
+#entry:selected:hover {
+  background-color: #443365;
 }
 
 #gemini-answer {
@@ -93,16 +120,17 @@ window {
 }
 
 #img {
-  margin: 2px 7px 2px 3px;
+  margin: 0 7px 0 0;
 }
 
 #prompt {
   margin: 3px 7px;
-  color: #bbbbbb;
+  color: #d6d6d6;
 }
 
 #expander-box {
   padding: 4px;
-  border-radius: 9px;
-  background-color: rgba(204, 204, 204, 0.06);
+  border-radius: 7px;
+  background-color: #292b32;
+  border: 1px solid rgba(255, 255, 255, 0.055);
 }

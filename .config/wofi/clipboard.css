@@ -1,0 +1,8 @@
+@import url("style.css");
+
+/* Match notification typography without changing preview dimensions. */
+* {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+}

@@ -1,10 +1,12 @@
 # General settings
 show=drun
-width=500
+width=660
 height=600
 location=center
-lines=12
-columns=1
+lines=0
+columns=3
+halign=fill
+content_halign=fill
 
 # Appearance & Behavior
 allow_images=true
@@ -17,7 +19,7 @@ use_search_box=false
 term=foot
 
 # Formatting & Cache
-drun-display-format={name} <span color="#bbbbbb">[{exec}]</span>
+drun-display-format={name}
 cache_file=/home/aseeralfaisal/.cache/wofi-cache
 
 # Keybindings

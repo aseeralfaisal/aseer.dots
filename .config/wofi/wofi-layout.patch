@@ -1,0 +1,86 @@
+--- a/src/wofi.c
++++ b/src/wofi.c
+@@ -220,14 +220,60 @@
++static GtkWidget* get_tile_label(GtkWidget* tile_content) {
++	if(!GTK_IS_CONTAINER(tile_content)) {
++		return NULL;
++	}
++	GList* children = gtk_container_get_children(GTK_CONTAINER(tile_content));
++	GtkWidget* label = NULL;
++	for(GList* node = children; node != NULL; node = node->next) {
++		if(GTK_IS_LABEL(node->data)) {
++			label = GTK_WIDGET(node->data);
++			break;
++		}
++	}
++	g_list_free(children);
++	return label;
++}
++
++static void style_tile_content(GtkWidget* tile_content, gboolean searching) {
++	GtkWidget* label = get_tile_label(tile_content);
++	searching = searching || columns == 1;
++	gtk_widget_set_halign(tile_content, searching ? GTK_ALIGN_START : content_halign);
++	if(label == NULL) {
++		return;
++	}
++	gtk_widget_set_hexpand(label, !searching);
++	gtk_label_set_xalign(GTK_LABEL(label), searching ? 0.0 : 0.5);
++	gtk_label_set_max_width_chars(GTK_LABEL(label), searching ? -1 : 14);
++	if(GTK_IS_BOX(tile_content)) {
++		gtk_box_set_child_packing(GTK_BOX(tile_content), label, !searching, !searching, 0, GTK_PACK_START);
++	}
++}
++
+ static gboolean do_search(gpointer data) {
+ 	(void) data;
+ 	const gchar* new_filter = gtk_entry_get_text(GTK_ENTRY(entry));
+ 	if(filter == NULL || strcmp(new_filter, filter) != 0) {
++		gboolean searching = new_filter[0] != '\0';
++		if(searching) {
++			gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(inner_box), 1);
++			gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(inner_box), 1);
++		} else {
++			gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(inner_box), columns);
++			gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(inner_box), columns);
++		}
++
++		GList* tile_children = gtk_container_get_children(GTK_CONTAINER(inner_box));
++		for(GList* node = tile_children; node != NULL; node = node->next) {
++			GtkWidget* tile_content = gtk_bin_get_child(GTK_BIN(node->data));
++			style_tile_content(tile_content, searching);
++		}
+ 		if(filter != NULL) {
+ 			free(filter);
+ 		}
+ 		filter = strdup(new_filter);
+ 		gtk_flow_box_invalidate_filter(GTK_FLOW_BOX(inner_box));
+ 		gtk_flow_box_invalidate_sort(GTK_FLOW_BOX(inner_box));
++		g_list_free(tile_children);
+ 		GtkFlowBoxChild* child = gtk_flow_box_get_child_at_index(GTK_FLOW_BOX(inner_box), 0);
+ 		if(child != NULL) {
+ 			gtk_flow_box_select_child(GTK_FLOW_BOX(inner_box), child);
+ 		}
+@@ -834,6 +835,7 @@
+ 	}
+ 
+ 	gtk_widget_set_halign(parent, content_halign);
++	style_tile_content(parent, filter != NULL && filter[0] != '\0');
+ 	GtkWidget* child = gtk_flow_box_child_new();
+ 	gtk_widget_set_name(child, "entry");
+ 	g_signal_connect(child, "size-allocate", G_CALLBACK(widget_allocate), NULL);
+
+--- a/src/widget_builder.c
++++ b/src/widget_builder.c
+@@ -71,6 +71,10 @@
+ void wofi_widget_builder_insert_text_with_list(struct widget_builder* builder, const char* text, struct wl_list* classes) {
+ 	GtkWidget* label = gtk_label_new(text);
+-	gtk_container_add(GTK_CONTAINER(builder->box), label);
++	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_END);
++	gtk_label_set_single_line_mode(GTK_LABEL(label), TRUE);
++	gtk_label_set_max_width_chars(GTK_LABEL(label), 14);
++	gtk_widget_set_hexpand(label, TRUE);
++	gtk_box_pack_start(GTK_BOX(builder->box), label, TRUE, TRUE, 0);
+ 	gtk_widget_set_name(label, "text");
+ 
+ 	GtkStyleContext* ctx = gtk_widget_get_style_context(label);

@@ -1,149 +1,380 @@
 {
   "hyprland/workspaces": {
-    "format": "{id}",
+    "format": "{icon}",
     "format-icons": {
-      "active": "󰮯",
-      "default": "󰮮"
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "11": "1",
+      "12": "2",
+      "13": "3",
+      "14": "4",
+      "15": "5",
+      "16": "6",
+      "default": "○"
     },
     "on-click": "activate",
     "persistent-workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": []
+      "1": [
+        "eDP-1"
+      ],
+      "2": [
+        "eDP-1"
+      ],
+      "3": [
+        "eDP-1"
+      ],
+      "4": [
+        "eDP-1"
+      ],
+      "5": [
+        "eDP-1"
+      ],
+      "6": [
+        "eDP-1"
+      ],
+      "11": [
+        "HDMI-A-1"
+      ],
+      "12": [
+        "HDMI-A-1"
+      ],
+      "13": [
+        "HDMI-A-1"
+      ],
+      "14": [
+        "HDMI-A-1"
+      ],
+      "15": [
+        "HDMI-A-1"
+      ],
+      "16": [
+        "HDMI-A-1"
+      ]
     },
-    "ignore-workspaces": ["^(?:[5-9]|[1-9][0-9]+)$"]
+    "ignore-workspaces": [
+      "^(?:[7-9]|10|1[7-9]|20|[2-9][0-9]+)$"
+    ]
   },
-
   "custom/workspace-overflow": {
-    "format": "…",
+    "format": "+",
     "tooltip-format": "More workspaces",
     "on-click": "~/.config/waybar/workspace_fallback.sh"
   },
-
   "cpu": {
-    "format": "󰍛 CPU {usage}%"
+    "format": "CPU {usage}%"
   },
-
   "disk": {
     "interval": 30,
-    "format": "󰋊 Disk {percentage_used}%"
+    "format": "SSD {percentage_used}%"
   },
-
+  "custom/notification": {
+    "return-type": "json",
+    "exec": "swaync-client -swb",
+    "format": "{icon}",
+    "format-icons": {
+      "none": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "notification": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "dnd-none": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "dnd-notification": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "inhibited-none": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "inhibited-notification": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "dnd-inhibited-none": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "dnd-inhibited-notification": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>"
+    },
+    "on-click": "swaync-client -t -sw",
+    "escape": false
+  },
+  "image#airplane": {
+    "exec": "~/.config/waybar/airplane-mode.sh icon",
+    "size": 16,
+    "interval": 2,
+    "on-click": "~/.config/waybar/airplane-mode.sh toggle"
+  },
   "memory": {
-    "format": "󰘚 RAM {}%"
+    "format": "RAM {}%"
   },
-
   "clock": {
     "format": "{:%H:%M · %a %d %b}",
-    "format-alt": "{:%A, %B %d, %Y}",
     "on-click": "gnome-calendar",
     "timezone": "Etc/GMT-6",
     "tooltip-format": "{:%A, %B %d, %Y}"
   },
-
   "custom/weather": {
     "format": "{}",
     "exec": "~/.config/waybar/weather.sh",
     "interval": 300,
     "on-click": "gnome-weather",
-    "tooltip-format": "Weather"
+    "tooltip-format": "Weather",
+    "escape": false
   },
-
   "network": {
     "format": "{ifname}",
-    "format-wifi": " {essid}",
-    "format-ethernet": "  {ifname}",
-    "format-disconnected": "Disconnected ⚠",
+    "format-wifi": "{essid}",
+    "format-ethernet": "{ifname}",
+    "format-disconnected": "Disconnected",
     "tooltip-format": " {ifname} via {gwaddri}",
     "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
     "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
     "tooltip-format-disconnected": "Disconnected",
     "max-length": 50,
-    "on-click": "ghostty -e iwctl"
+    "on-click": "bash ~/.config/wofi/wifi-menu.sh"
   },
-
   "bluetooth": {
-    "format": " On",
-    "format-connected": " Active",
-    "format-disabled": "",
-    "format-off": "",
+    "format": "On",
+    "format-connected": "Active",
+    "format-disabled": "Off",
+    "format-off": "Off",
     "interval": 30,
-    "on-click": "blueman-manager",
+    "on-click": "bash ~/.config/wofi/bluetooth-menu.sh",
     "format-no-controller": ""
   },
-
   "pulseaudio": {
-    "format": "{icon} Vol {volume}%",
-    "format-bluetooth": "{icon} {volume}%",
-    "format-bluetooth-muted": "{icon} {format_source}",
-    "format-muted": "{icon} Muted",
-    "format-source": "{volume}% 󰍬",
-    "format-source-muted": "󰍭",
+    "format": "{volume}%",
+    "format-bluetooth": "{volume}%",
+    "format-bluetooth-muted": "Muted",
+    "format-muted": "Muted",
+    "format-source": "{volume}% ",
+    "format-source-muted": "Mic muted",
     "format-icons": {
-      "headphone": "󰋋",
-      "hands-free": "󰋋",
-      "headset": "󰋋",
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
       "phone": "󰘛",
       "portable": "󰘛",
       "car": "",
-      "default": ["󰕿", "󰖀", "󰕾"]
+      "default": [
+        "",
+        "",
+        ""
+      ]
     },
     "on-click": "pavucontrol"
   },
-
   "battery": {
     "states": {
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon} {capacity}%",
-    "format-charging": "  {capacity}%",
-    "format-plugged": "  {capacity}%",
-    "format-alt": "{icon}  {time}",
-    "format-icons": [" ", " ", " ", " ", " "]
+    "format": "{capacity}%",
+    "format-charging": "{capacity}%",
+    "format-plugged": "{capacity}%",
+    "format-alt": "{time}",
+    "format-icons": [
+      "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
+      "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>"
+    ]
   },
-
   "custom/download": {
     "format": "{}",
     "exec": "~/.config/waybar/netspeed.sh download",
-    "tooltip-format": "Download speed"
+    "tooltip-format": "Download speed",
+    "escape": false,
+    "align": 1
   },
-
   "custom/upload": {
     "format": "{}",
     "exec": "~/.config/waybar/netspeed.sh upload",
-    "tooltip-format": "Upload speed"
+    "tooltip-format": "Upload speed",
+    "escape": false,
+    "align": 1
   },
-
   "custom/exit": {
-    "format": "󰐦",
+    "format": "<span weight=\"normal\" foreground=\"#ffffff\" font_family=\"JetBrainsMono Nerd Font Propo\" size=\"10240\"></span>",
     "on-click": "~/.config/wofi/powermenu.sh",
     "tooltip-format": "Power Menu"
   },
-
   "group/workspace-strip": {
     "orientation": "horizontal",
-    "modules": ["hyprland/workspaces", "custom/workspace-overflow"]
+    "modules": [
+      "hyprland/workspaces",
+      "custom/workspace-overflow"
+    ]
   },
-
   "group/resources": {
     "orientation": "horizontal",
-    "modules": ["cpu", "disk", "memory"]
+    "modules": [
+      "group/cpu-item",
+      "group/disk-item",
+      "group/memory-item"
+    ]
   },
-
   "group/date-weather": {
     "orientation": "horizontal",
-    "modules": ["clock", "custom/weather"]
+    "modules": [
+      "clock",
+      "group/weather-item"
+    ]
   },
-
+  "group/toggles": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#notification",
+      "image#airplane"
+    ]
+  },
   "group/status": {
     "orientation": "horizontal",
-    "modules": ["network", "bluetooth", "pulseaudio", "battery"]
+    "modules": [
+      "group/network-item",
+      "group/bluetooth-item",
+      "group/volume-item",
+      "group/battery-item"
+    ]
   },
-
   "group/transfers-power": {
     "orientation": "horizontal",
-    "modules": ["custom/download", "custom/upload", "custom/exit"]
+    "modules": [
+      "group/download-item",
+      "group/upload-item",
+      "image#power"
+    ]
+  },
+  "image#cpu": {
+    "exec": "~/.config/waybar/icon-state.sh cpu",
+    "interval": 2,
+    "multiple": true,
+    "size": 16
+  },
+  "group/cpu-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#cpu",
+      "cpu"
+    ]
+  },
+  "image#disk": {
+    "exec": "~/.config/waybar/icon-state.sh disk",
+    "interval": 2,
+    "multiple": true,
+    "size": 16
+  },
+  "group/disk-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#disk",
+      "disk"
+    ]
+  },
+  "image#memory": {
+    "exec": "~/.config/waybar/icon-state.sh memory",
+    "interval": 2,
+    "multiple": true,
+    "size": 16
+  },
+  "group/memory-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#memory",
+      "memory"
+    ]
+  },
+  "image#weather": {
+    "size": 16,
+    "on-click": "gnome-weather",
+    "exec": "~/.config/waybar/icon-state.sh weather",
+    "interval": 10,
+    "multiple": true
+  },
+  "group/weather-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#weather",
+      "custom/weather"
+    ]
+  },
+  "image#network": {
+    "size": 16,
+    "on-click": "bash ~/.config/wofi/wifi-menu.sh",
+    "exec": "~/.config/waybar/icon-state.sh network",
+    "multiple": true,
+    "interval": 3
+  },
+  "group/network-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#network",
+      "network"
+    ]
+  },
+  "image#bluetooth": {
+    "size": 16,
+    "on-click": "bash ~/.config/wofi/bluetooth-menu.sh",
+    "exec": "~/.config/waybar/icon-state.sh bluetooth",
+    "multiple": true,
+    "interval": 5
+  },
+  "group/bluetooth-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#bluetooth",
+      "bluetooth"
+    ]
+  },
+  "image#volume": {
+    "path": "/home/aseeralfaisal/.config/waybar/icons/volume@2x.png",
+    "size": 16,
+    "on-click": "pavucontrol"
+  },
+  "group/volume-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#volume",
+      "pulseaudio"
+    ]
+  },
+  "image#battery": {
+    "size": 16,
+    "exec": "~/.config/waybar/icon-state.sh battery",
+    "interval": 2
+  },
+  "group/battery-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#battery",
+      "battery"
+    ]
+  },
+  "image#download": {
+    "size": 16,
+    "exec": "~/.config/waybar/icon-state.sh download",
+    "interval": 1
+  },
+  "group/download-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#download",
+      "custom/download"
+    ]
+  },
+  "image#upload": {
+    "size": 16,
+    "exec": "~/.config/waybar/icon-state.sh upload",
+    "interval": 1
+  },
+  "group/upload-item": {
+    "orientation": "horizontal",
+    "modules": [
+      "image#upload",
+      "custom/upload"
+    ]
+  },
+  "image#power": {
+    "path": "/home/aseeralfaisal/.config/waybar/icons/power@2x.png",
+    "size": 16,
+    "on-click": "~/.config/wofi/powermenu.sh"
+  },
+  "image#notification": {
+    "size": 16,
+    "on-click": "swaync-client -t -sw",
+    "exec": "~/.config/waybar/icon-state.sh notification",
+    "multiple": true,
+    "interval": 5
   }
 }

@@ -2,23 +2,24 @@
     "layer": "top",
     "margin-top": 4,
     "margin-bottom": 0,
-    "margin-left": 4,
-    "margin-right": 4,
+    "margin-left": 0,
+    "margin-right": 0,
     "spacing": 0,
-
     "include": [
         "~/.config/waybar/modules.json"
     ],
-
     "modules-left": [
         "group/workspace-strip",
         "group/resources"
     ],
     "modules-center": [
-        "group/date-weather"
+        "group/date-weather",
+        "group/toggles"
     ],
     "modules-right": [
         "group/status",
         "group/transfers-power"
-    ]
+    ],
+    "height": 46,
+    "position": "top"
 }
