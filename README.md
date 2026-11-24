@@ -2,6 +2,8 @@
 
 ![Hyprland desktop](assets/desktop.png)
 
+![Hyprland desktop with the Wofi app launcher and Bluetooth panel open](assets/launcher-and-bluetooth.png)
+
 - Hyprland with smooth animations and rounded windows.
 - Waybar with animated icons, weather, and system stats.
 - Wofi app launcher, clipboard history, and Gemini answers.
