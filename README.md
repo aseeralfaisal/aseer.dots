@@ -1,7 +1,5 @@
 # aseer .dots
 
-![Hyprland desktop](assets/desktop.png)
-
 ![Hyprland desktop with the Wofi app launcher and Bluetooth panel open](assets/launcher-and-bluetooth.png)
 
 - Hyprland with smooth animations and rounded windows.
