@@ -1,7 +1,7 @@
 # General settings
 show=drun
-width=660
-height=600
+width=600
+height=520
 location=center
 lines=0
 columns=3
@@ -10,7 +10,7 @@ content_halign=fill
 
 # Appearance & Behavior
 allow_images=true
-image_size=32
+image_size=27
 no_actions=true
 insensitive=true
 hide_scroll=true

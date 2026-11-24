@@ -4,11 +4,10 @@ hl.window_rule({
 	suppress_event = "maximize",
 })
 
--- Keep Kitty's transparency without blur and text fully opaque on focus changes.
+-- Let Kitty control background opacity so its text stays opaque on focus changes.
 hl.window_rule({
 	name = "kitty-glass",
 	match = { class = "^(kitty|kitty-.*)$" },
-	no_blur = true,
 	no_shadow = true,
 	opacity = "1.0 override 1.0 override 1.0 override",
 })
@@ -27,9 +26,23 @@ hl.window_rule({
 hl.layer_rule({
 	name = "wofi-effects",
 	match = { namespace = "wofi" },
-	-- The solid panel needs no blur; leave the shadow's transparent canvas clear.
-	blur = false,
-	animation = "popin 96%",
+	blur = true,
+	ignore_alpha = 0.5,
+	animation = "popin 98%",
+})
+
+hl.layer_rule({
+	name = "waybar-blur",
+	match = { namespace = "waybar" },
+	blur = true,
+	ignore_alpha = 0.5,
+})
+
+hl.layer_rule({
+	name = "waybar-menu-blur",
+	match = { namespace = "^(wifi-panel|bluetooth-panel|power-panel|swaync-control-center|swaync-notification-window)$" },
+	blur = true,
+	ignore_alpha = 0.5,
 })
 
 hl.window_rule({

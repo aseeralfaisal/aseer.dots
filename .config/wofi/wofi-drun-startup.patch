@@ -1,0 +1,62 @@
+--- a/src/wofi.c
++++ b/src/wofi.c
+@@ -106,6 +106,7 @@
+ static bool resize_expander = false;
+ static uint32_t line_count = 0;
+ static bool dynamic_lines;
++static bool fixed_drun_size;
+ static struct wl_list mode_list;
+ static pthread_t mode_thread;
+ static bool has_joined_mode = false;
+@@ -764,6 +765,11 @@
+ }
+ 
+ static void update_surface_size(void) {
++	if(fixed_drun_size) {
++		/* The expanding app grid fits inside the configured window size. */
++		return;
++	}
++
+ 	int64_t scroll_width = 0;
+ 	int64_t scroll_height = 0;
+ 	if(lines > 0) {
+@@ -2039,6 +2045,7 @@
+ 	y = map_get(config, "y");
+ 	bool normal_window = strcmp(config_get(config, "normal_window", "false"), "true") == 0;
+ 	char* mode = map_get(config, "mode");
++	bool is_drun = strcmp(mode, "drun") == 0;
+ 	GtkOrientation orientation = config_get_mnemonic(config, "orientation", "vertical", 2, "vertical", "horizontal");
+ 	outer_orientation = config_get_mnemonic(config, "orientation", "vertical", 2, "horizontal", "vertical");
+ 	GtkAlign halign = config_get_mnemonic(config, "halign", "fill", 4, "fill", "start", "end", "center");
+@@ -2077,6 +2084,8 @@
+ 	char* search = map_get(config, "search");
+ 	dynamic_lines = strcmp(config_get(config, "dynamic_lines", "false"), "true") == 0;
+ 	char* monitor = map_get(config, "monitor");
++	fixed_drun_size = is_drun && !dynamic_lines && lines == 0 && width > 0 && height > 0
++		&& strchr(width_str, '%') == NULL && strchr(height_str, '%') == NULL;
+ 	char* layer = config_get(config, "layer", "top");
+ 	copy_exec = config_get(config, "copy_exec", "wl-copy");
+ 	pre_display_cmd = map_get(config, "pre_display_cmd");
+@@ -2366,10 +2375,19 @@
+ 
+ 	pthread_create(&mode_thread, NULL, start_mode_thread, mode);
+ 
+-	gdk_threads_add_idle(insert_all_widgets, &mode_list);
+-
+ 	gtk_window_set_title(GTK_WINDOW(window), prompt);
+-	gtk_widget_show_all(window);
++	if(is_drun) {
++		/* Build the app grid before mapping the window so icons appear together. */
++		gtk_box_set_child_packing(GTK_BOX(outer_box), scroll, TRUE, TRUE, 0, GTK_PACK_START);
++		gtk_widget_show_all(outer_box);
++		while(insert_all_widgets(&mode_list)) {
++			continue;
++		}
++		gtk_widget_show(window);
++	} else {
++		gdk_threads_add_idle(insert_all_widgets, &mode_list);
++		gtk_widget_show_all(window);
++	}
+ 
+ 	atexit(on_exit_set_custom_key_return_code);
+ }

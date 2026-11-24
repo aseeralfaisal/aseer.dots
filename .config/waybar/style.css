@@ -6,13 +6,13 @@ window#waybar { background: transparent; background-image: none; border: none; b
 .modules-right { padding-right: 4px; }
 
 #workspace-strip, #resources, #date-weather, #toggles, #status, #transfers-power {
-  background: #292b32;
+  background: rgba(30, 30, 30, 0.70);
   border: 1px solid rgba(255,255,255,.055);
   border-radius: 11px;
   padding: 3px;
   margin-top: 8px;
   margin-bottom: 4px;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,.55);
+  box-shadow: none;
 }
 #workspace-strip, #status { margin-right: 12px; }
 #toggles { margin-left: 12px; }
@@ -48,7 +48,7 @@ window#waybar { background: transparent; background-image: none; border: none; b
 #download-item:hover, #upload-item:hover, #clock:hover, #toggles #image:hover,
 #transfers-power #image.power:hover, #custom-workspace-overflow:hover,
 #workspaces button:hover { background: #443365; }
-tooltip { background: #292b32; border: 1px solid rgba(255,255,255,.065); border-radius: 8px; }
+tooltip { background: #1e1e1e; border: 1px solid rgba(255,255,255,.065); border-radius: 8px; box-shadow: none; }
 tooltip label { color: #ffffff; font-size: 13px; padding: 8px; }
 
 #workspaces button.active:hover, #workspaces button.visible:hover { background: #443365; color: #fff; }

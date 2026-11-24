@@ -1,32 +1,34 @@
+@import url("menu-palette.css");
+
 * { font-family: "Inter", sans-serif; font-size: 13px; font-weight: 500; color: #fff; }
 window#wifi-panel, window#wifi-backdrop {
   background: transparent; background-image: none; border: none; box-shadow: none;
 }
 #panel-surface {
   padding: 14px;
-  background: #24262d;
-  border: 1px solid rgba(255,255,255,.11);
+  background: @menu_surface;
+  border: 1px solid @menu_border;
   border-radius: 16px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,.55);
+  box-shadow: 0 4px 8px 0 @menu_shadow;
 }
 #header { margin-bottom: 14px; min-height: 32px; }
 #title { font-size: 16px; font-weight: 600; }
 button {
-  background: rgba(255,255,255,.045); background-image: none;
+  background: @menu_control; background-image: none;
   border: 1px solid transparent; box-shadow: none; text-shadow: none;
   border-radius: 8px; padding: 6px 10px; min-height: 18px;
   outline-style: none;
 }
 button:hover { background: #443365; }
-button:focus { border-color: rgba(180,155,255,.55); }
+button:focus { border-color: @menu_focus_border; }
 button.radio-toggle { padding: 6px 8px; background: #443365; }
 .network-card {
-  background: rgba(255,255,255,.035);
-  border: 1px solid rgba(255,255,255,.025);
+  background: @menu_card;
+  border: 1px solid @menu_card_border;
   border-radius: 11px;
 }
-.network-card.connected { background: #302b42; border-color: rgba(170,146,235,.22); }
-.network-card:hover { background: #373044; border-color: rgba(180,155,255,.18); }
+.network-card.connected { background: @menu_selected; border-color: @menu_selected_border; }
+.network-card:hover { background: @menu_hover; border-color: @menu_hover_border; }
 button.network-connect {
   background: transparent; border: none; border-radius: 10px;
   padding: 11px 12px; min-height: 36px;

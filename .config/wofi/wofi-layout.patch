@@ -1,6 +1,6 @@
 --- a/src/wofi.c
 +++ b/src/wofi.c
-@@ -220,14 +220,60 @@
+@@ -220,14 +220,70 @@
 +static GtkWidget* get_tile_label(GtkWidget* tile_content) {
 +	if(!GTK_IS_CONTAINER(tile_content)) {
 +		return NULL;
@@ -32,6 +32,15 @@
 +	}
 +}
 +
++static void style_columns(gboolean searching) {
++	GtkStyleContext* context = gtk_widget_get_style_context(inner_box);
++	if(!searching && columns == 3) {
++		gtk_style_context_add_class(context, "three-columns");
++	} else {
++		gtk_style_context_remove_class(context, "three-columns");
++	}
++}
++
  static gboolean do_search(gpointer data) {
  	(void) data;
  	const gchar* new_filter = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -44,6 +53,7 @@
 +			gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(inner_box), columns);
 +			gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(inner_box), columns);
 +		}
++		style_columns(searching);
 +
 +		GList* tile_children = gtk_container_get_children(GTK_CONTAINER(inner_box));
 +		for(GList* node = tile_children; node != NULL; node = node->next) {
@@ -61,7 +71,7 @@
  		if(child != NULL) {
  			gtk_flow_box_select_child(GTK_FLOW_BOX(inner_box), child);
  		}
-@@ -834,6 +835,7 @@
+@@ -834,6 +890,7 @@
  	}
  
  	gtk_widget_set_halign(parent, content_halign);
@@ -69,6 +79,14 @@
  	GtkWidget* child = gtk_flow_box_child_new();
  	gtk_widget_set_name(child, "entry");
  	g_signal_connect(child, "size-allocate", G_CALLBACK(widget_allocate), NULL);
+@@ -2249,6 +2306,7 @@
+ 	gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(inner_box), columns);
+ 	gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(inner_box), columns);
+ 	gtk_flow_box_set_homogeneous(GTK_FLOW_BOX(inner_box), TRUE);
++	style_columns(FALSE);
+ 	gtk_orientable_set_orientation(GTK_ORIENTABLE(inner_box), orientation);
+ 	gtk_widget_set_halign(inner_box, halign);
+ 	gtk_widget_set_valign(inner_box, valign);
 
 --- a/src/widget_builder.c
 +++ b/src/widget_builder.c

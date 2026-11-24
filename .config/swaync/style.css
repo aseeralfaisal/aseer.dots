@@ -1,263 +1,126 @@
-/* Match Waybar's charcoal glass, compact pills, and violet active state. */
-@define-color panel rgba(24, 24, 32, 0.70);
-@define-color notification-panel rgba(24, 24, 32, 0.775);
-@define-color tile rgba(204, 204, 204, 0.06);
-@define-color hover rgba(44, 44, 44, 0.90);
-@define-color active rgba(80, 80, 204, 0.65);
+/* Shared charcoal menu palette, soft shadows, and restrained violet accents. */
+@define-color panel rgba(30, 30, 30, 0.68);
+@define-color tile rgba(43, 45, 53, 0.42);
+@define-color hover #373044;
+@define-color active #443365;
 @define-color text #ffffff;
-@define-color muted #bbbbbb;
-@define-color urgent #ff6b81;
-
+@define-color muted #a6a7b1;
+@define-color urgent #ed9ba9;
 * {
   all: unset;
   font-family: "Inter", sans-serif;
-  font-size: 15px;
-  font-weight: bold;
-  color: @text;
-  transition: 100ms ease-out;
-}
-
-/* Floating notifications */
-.floating-notifications.background .notification-row {
-  outline: none;
-}
-
-.floating-notifications.background .notification-row .notification-background {
-  margin: 8px 12px;
-  padding: 2px;
-  border-radius: 12px;
-  background: @notification-panel;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-}
-
-.floating-notifications.background .notification-row .notification-background .notification {
-  padding: 7px;
-  border-radius: 9px;
-  background: @tile;
-}
-
-.notification-row .notification-background .notification.critical {
-  box-shadow: inset 3px 0 @urgent;
-}
-
-.notification-row .notification-background .notification-content {
-  margin: 7px;
-}
-
-.notification-row .notification-background .time,
-.notification-row .notification-background .body {
-  color: @muted;
-  font-size: 14px;
-  font-weight: normal;
-}
-
-.notification-row .notification-background .notification > *:last-child > * {
-  min-height: 3.4em;
-}
-
-.notification-row .notification-background .notification-action {
-  margin: 7px 4px 2px;
-  padding: 6px 9px;
-  border-radius: 9px;
-  background: @tile;
-}
-
-.notification-row .notification-background .notification-action:hover,
-.notification-row .notification-background:hover .notification {
-  background: @hover;
-}
-
-.notification-row .notification-background .notification-action:active {
-  background: @active;
-}
-
-.notification-row .notification-background .close-button {
-  margin: 7px;
-  padding: 3px;
-  border-radius: 9px;
-  background: @tile;
-  color: @muted;
-}
-
-.notification-row .notification-background .close-button:hover {
-  background: @hover;
+  font-size: 13px;
+  font-weight: 500;
   color: @text;
 }
-
-.notification-row .notification-background .close-button:active {
-  background: @active;
-  color: @text;
-}
-
-.notification.low progress,
-.notification.normal progress,
-.notification.critical progress,
-trough highlight {
-  background: @active;
-}
-
-/* Control center */
 .control-center {
-  margin: 12px;
-  padding: 12px;
-  border-radius: 12px;
   background: @panel;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  margin: 8px 4px 18px 18px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.55);
 }
-
-.control-center .widget-title {
-  margin-bottom: 6px;
+.widget-title { margin-bottom: 12px; }
+.widget-title > label { font-size: 16px; font-weight: 600; }
+.widget-title button {
+  padding: 6px 9px; border: 1px solid transparent;
+  border-radius: 8px; background: rgba(255,255,255,.045);
 }
+.widget-title button label { font-size: 11px; font-weight: 500; }
+.widget-title button:hover { background: @active; }
+.widget-title button:focus { border-color: rgba(180,155,255,.5); }
 
-.control-center .widget-title > label {
-  font-size: 17px;
+.widget-dnd {
+  margin: 0 0 5px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid rgba(255,255,255,.055);
 }
-
-.control-center .widget-title button,
-.widget-buttons-grid > flowbox > flowboxchild > button,
-.power-buttons button,
-.powermode-buttons button,
-.screenshot-buttons button {
-  padding: 7px 10px;
-  border-radius: 9px;
-  background: @tile;
+.widget-dnd > label { font-size: 12px; font-weight: 400; color: @muted; }
+.widget-dnd > switch {
+  min-width: 28px; min-height: 28px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: rgba(255,255,255,.045);
+  background-image: url("../waybar/icons/bell.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
 }
-
-.control-center .widget-title button:hover,
-.widget-buttons-grid > flowbox > flowboxchild > button:hover,
-.power-buttons button:hover,
-.powermode-buttons button:hover,
-.screenshot-buttons button:hover {
-  background: @hover;
+.widget-dnd > switch:hover { background-color: rgba(255,255,255,.10); }
+.widget-dnd > switch:checked {
+  background-color: @active;
+  background-image: -gtk-icontheme("notifications-disabled-symbolic");
+  border-color: rgba(180,155,255,.25);
 }
-
-.control-center .widget-title button:active,
-.widget-buttons-grid > flowbox > flowboxchild > button:active,
-.power-buttons button:active,
-.powermode-buttons button:active,
-.screenshot-buttons button:active {
-  background: @active;
-}
-
+.widget-dnd > switch:checked:hover { background-color: #514075; }
+.widget-dnd > switch:focus-visible { border-color: rgba(180,155,255,.55); }
+.widget-dnd > switch slider, .widget-dnd > switch image { opacity: 0; }
 .control-center .notification-row .notification-background {
-  margin-top: 8px;
-  padding: 2px;
-  border-radius: 12px;
+  margin: 7px 0 0; padding: 0;
   background: @tile;
+  border: 1px solid rgba(255,255,255,.025);
+  border-radius: 11px;
 }
-
 .control-center .notification-row .notification-background:hover {
   background: @hover;
+  border-color: rgba(180,155,255,.18);
 }
-
-.control-center .notification-row .notification-background:active {
-  background: @active;
+.notification-row .notification-background .notification {
+  padding: 10px; border-radius: 10px; background: transparent;
 }
-
-.control-center .notification-row .notification-background .notification {
-  padding: 7px;
-  border-radius: 9px;
+.notification-row .notification-background .notification-content { margin: 0; }
+.notification-row .notification-background .summary { font-size: 13px; font-weight: 500; }
+.notification-row .notification-background .body {
+  margin-top: 3px; font-size: 11px; font-weight: 400; color: @muted;
 }
-
-/* DND uses the same neutral and active pills as Waybar workspaces. */
-.widget-dnd {
-  margin: 6px 0;
+.notification-row .notification-background .time {
+  margin-right: 18px; font-size: 10px; font-weight: 400; color: @muted;
 }
-
-.widget-dnd > switch,
-.control-center-dnd {
-  min-width: 42px;
-  min-height: 22px;
-  border-radius: 12px;
-  background: @tile;
+.notification-row .notification-background .image { margin-right: 9px; padding: 0; }
+.notification-row .notification-background .notification-action {
+  padding: 6px 9px; margin: 5px 3px 0;
+  border-radius: 7px; background: rgba(255,255,255,.045);
 }
-
-.widget-dnd > switch:hover,
-.control-center-dnd:hover {
-  background: @hover;
+.notification-row .notification-background .notification-action:hover { background: @active; }
+.notification-row .notification-background .close-button {
+  margin: 5px; padding: 3px; min-width: 12px; min-height: 12px;
+  border-radius: 7px; background: transparent; opacity: 0;
 }
+.notification-row .notification-background:hover .close-button { opacity: 1; }
+.notification-row .notification-background .close-button:hover { background: @active; }
+.notification-row .notification-background .notification.critical { box-shadow: inset 2px 0 @urgent; }
 
-.widget-dnd > switch:checked,
-.control-center-dnd:checked {
-  background: @active;
+.floating-notifications.background .notification-row { outline: none; }
+.floating-notifications.background .notification-row .notification-background {
+  margin: 14px 18px; padding: 2px;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 14px; background: @panel;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.55);
 }
+.floating-notifications.background .notification-row .notification-background:hover { background: rgba(55, 48, 68, 0.68); }
+.control-center .notification-group.collapsed .notification-row .notification { background: @tile; }
+.notification-group.collapsed .notification-row:not(:last-child) .notification-action,
+.notification-group.collapsed .notification-row:not(:last-child) .notification-default-action { opacity: 0; }
+scrollbar { background: transparent; }
+scrollbar slider { min-width: 3px; min-height: 24px; margin: 3px; background: #55525f; border-radius: 3px; }
+trough { min-height: 4px; border-radius: 4px; background: #45414f; }
+trough progress, trough highlight { border-radius: 4px; background: #a58bde; }
 
-.widget-dnd > switch slider,
-.control-center-dnd slider {
-  margin: 3px;
-  min-width: 16px;
-  min-height: 16px;
-  border-radius: 9px;
-  background: @muted;
+/* A quiet, compact empty state instead of an oversized white bell. */
+.control-center-list-placeholder { padding: 16px 0 10px; }
+.control-center-list-placeholder image {
+  -gtk-icon-size: 40px;
+  -gtk-icon-filter: opacity(0);
+  background-image: url("/home/aseeralfaisal/.config/swaync/empty-inbox.svg");
+  background-size: 40px 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 1;
+  margin-bottom: 8px;
 }
-
-.widget-dnd > switch:checked slider,
-.control-center-dnd:checked slider {
-  background: @text;
-}
-
-/* Media, sliders, and optional button widgets */
-.widget-mpris .widget-mpris-player {
-  margin-top: 8px;
-  padding: 9px;
-  border-radius: 9px;
-  background: @tile;
-}
-
-.widget-mpris .widget-mpris-subtitle {
-  color: @muted;
-  font-size: 13px;
-  font-weight: normal;
-}
-
-.widget-menubar > box > .menu-button-bar > button > label,
-.widget-buttons-grid > flowbox > flowboxchild > button label {
-  font-size: 20px;
-}
-
-.widget-menubar > box > .menu-button-bar > button {
-  padding: 7px 14px;
-  border-radius: 9px;
-}
-
-.widget-menubar > box > .menu-button-bar > button:hover {
-  background: @hover;
-}
-
-.control-center .widget-label > label {
-  font-size: 17px;
-}
-
-.widget-buttons-grid,
-.widget-volume,
-.widget-backlight {
-  padding-top: 8px;
-}
-
-.widget-volume label,
-.widget-backlight label {
-  color: @muted;
-  font-size: 17px;
-}
-
-scale trough {
-  margin: 0 10px;
-  min-width: 70px;
-  min-height: 8px;
-  border-radius: 9px;
-  background: @tile;
-}
-
-scale trough highlight,
-slider {
-  border-radius: 9px;
-  background: @active;
-}
-
-.widget-backlight .KB {
-  padding-bottom: 8px;
-}
-
-.image {
-  padding-right: 8px;
+.control-center-list-placeholder label {
+  color: #a6a7b1;
+  font-size: 12px;
+  font-weight: 400;
 }

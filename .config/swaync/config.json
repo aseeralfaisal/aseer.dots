@@ -1,0 +1,43 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "notification-visibility": {
+    "ignore-failed-unit-startup": {
+      "state": "ignored",
+      "summary": "^Failed unit detected$",
+      "body": "^swaync\\.service$"
+    },
+    "ignore-ibus-startup": {
+      "state": "ignored",
+      "summary": "^IBus Notification$"
+    }
+  },
+  "widgets": [
+    "title",
+    "dnd",
+    "notifications"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Notifications",
+      "clear-all-button": true,
+      "button-text": "Clear all"
+    },
+    "dnd": {
+      "text": "Do Not Disturb"
+    },
+    "notifications": {
+      "vexpand": false
+    }
+  },
+  "notification-grouping": false,
+  "transition-time": 100,
+  "positionX": "right",
+  "control-center-positionX": "right",
+  "control-center-width": 364,
+  "notification-window-width": 364,
+  "fit-to-screen": false,
+  "control-center-height": -1,
+  "notification-icon-size": 24,
+  "notification-body-image-height": 64,
+  "notification-body-image-width": 128
+}

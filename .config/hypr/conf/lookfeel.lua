@@ -68,7 +68,7 @@ hl.config({
 	},
 })
 
--- Native wobble and acrylic blur require Hyprland 0.57+. Keep reloads safe
+-- Native wobble and blur variant selection require Hyprland 0.57+. Keep reloads safe
 -- while an older compositor is still running after a package upgrade.
 local major, minor = hl.version():match("(%d+)%.(%d+)")
 if major and (tonumber(major) > 0 or tonumber(minor) >= 57) then
@@ -80,14 +80,10 @@ if major and (tonumber(major) > 0 or tonumber(minor) >= 57) then
 				enabled = true,
 			},
 			blur = {
-				variant = "acrylic",
-				acrylic = {
-					aberration = 0.025,
-					bulb = 48.0,
-					clarity = 0.82,
-					refraction = 24.0,
-					tint = "rgba(eef5ff14)",
-				},
+				-- Keep translucent Waybar groups free of acrylic edge shading.
+				variant = "kawase",
+				size = 9,
+				passes = 2,
 			},
 		},
 	})
@@ -116,7 +112,7 @@ hl.animation({ leaf = "fade", enabled = true, speed = 3.03, bezier = "quick" })
 hl.animation({ leaf = "layers", enabled = true, speed = 3.81, bezier = "easeOutQuint" })
 hl.animation({ leaf = "layersIn", enabled = true, speed = 3.2, bezier = "smoothEase", style = "popin 96%" })
 hl.animation({ leaf = "layersOut", enabled = true, speed = 0.7, bezier = "linear", style = "fade" })
-hl.animation({ leaf = "fadeLayersIn", enabled = false })
+hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 0.9, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 0.6, bezier = "almostLinear" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1, bezier = "almostLinear", style = "fade" })

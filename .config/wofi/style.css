@@ -1,7 +1,8 @@
-/* Match Waybar's charcoal pills, subtle dividers, and violet selection. */
+@import url("file:///home/aseeralfaisal/.config/wofi/menu-palette.css");
+
 * {
   font-family: "Inter", sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
 }
 
@@ -17,22 +18,20 @@ window {
 }
 
 #outer-box {
-  /* Widget margins reserve real drawing space for the full shadow fade. */
-  margin: 18px;
-  padding: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.055);
-  border-radius: 11px;
-  background-color: #292b32;
-  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.40);
+  margin: 14px;
+  padding: 10px;
+  border: 1px solid @menu_border;
+  border-radius: 16px;
+  background-color: @menu_surface;
+  box-shadow: 0 4px 8px 0 @menu_shadow;
 }
 
 #input {
-  margin: 3px 3px 8px;
-  padding: 10px 9px;
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 7px;
-  background-color: transparent;
+  margin: 3px 3px 6px;
+  padding: 7px 8px;
+  border: 1px solid @menu_card_border;
+  border-radius: 8px;
+  background-color: @menu_control;
   background-image: none;
   color: #ffffff;
   outline: none;
@@ -40,8 +39,7 @@ window {
 }
 
 #input:focus {
-  background-color: transparent;
-  border-bottom-color: #5750b2;
+  border-color: @menu_focus_border;
 }
 
 #input image.left {
@@ -67,22 +65,12 @@ window {
   background-color: transparent;
 }
 
-/* Continuous dividers between the three app columns, like Waybar's pills. */
-#inner-box {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.10)),
-    linear-gradient(to right, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.10));
-  background-size: 1px 100%, 1px 100%;
-  background-position: 33.333333% 0, 66.666667% 0;
-  background-repeat: no-repeat;
-}
-
 #entry {
   margin: 2px 3px;
-  padding: 9px;
-  border: none;
-  border-radius: 7px;
-  background-color: transparent;
+  padding: 5px 7px;
+  border: 1px solid @menu_card_border;
+  border-radius: 11px;
+  background-color: @menu_card;
   background-image: none;
   box-shadow: none;
   color: #ffffff;
@@ -90,22 +78,23 @@ window {
 }
 
 #entry:hover {
-  background-color: #443365;
-  color: #ffffff;
+  background-color: @menu_hover;
+  border-color: @menu_hover_border;
 }
 
 #entry:selected {
-  background-color: #5750b2;
-  color: #ffffff;
+  background-color: @menu_selected;
+  border-color: @menu_selected_border;
 }
 
 #text {
-  margin: 1px 5px;
+  margin: 1px 4px;
   color: inherit;
 }
 
 #entry:selected:hover {
-  background-color: #443365;
+  background-color: @menu_hover;
+  border-color: @menu_hover_border;
 }
 
 #gemini-answer {
@@ -120,7 +109,7 @@ window {
 }
 
 #img {
-  margin: 0 7px 0 0;
+  margin: 0 5px 0 0;
 }
 
 #prompt {
@@ -131,6 +120,6 @@ window {
 #expander-box {
   padding: 4px;
   border-radius: 7px;
-  background-color: #292b32;
+  background-color: #1e1e1e;
   border: 1px solid rgba(255, 255, 255, 0.055);
 }

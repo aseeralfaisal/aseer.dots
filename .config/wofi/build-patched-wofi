@@ -15,6 +15,7 @@ tar -xzf "${work_dir}/wofi.tar.gz" -C "${work_dir}/source" --strip-components=1
 patch -d "${work_dir}/source" -p1 <"${config_dir}/wofi-gemini.patch"
 patch -d "${work_dir}/source" -p1 <"${config_dir}/wofi-layout.patch"
 patch -d "${work_dir}/source" -p1 <"${config_dir}/wofi-clipboard-reset.patch"
+patch -d "${work_dir}/source" -p1 <"${config_dir}/wofi-drun-startup.patch"
 
 CCACHE_DISABLE=1 meson setup "${work_dir}/build" "${work_dir}/source" --buildtype=release
 CCACHE_DISABLE=1 ninja -C "${work_dir}/build"

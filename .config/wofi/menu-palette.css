@@ -1,0 +1,11 @@
+@define-color menu_surface rgba(30, 30, 30, .68);
+@define-color menu_border rgba(255, 255, 255, .11);
+@define-color menu_shadow rgba(0, 0, 0, .55);
+@define-color menu_control rgba(255, 255, 255, .045);
+@define-color menu_card rgba(255, 255, 255, .035);
+@define-color menu_card_border rgba(255, 255, 255, .025);
+@define-color menu_selected #302b42;
+@define-color menu_selected_border rgba(170, 146, 235, .22);
+@define-color menu_hover #373044;
+@define-color menu_hover_border rgba(180, 155, 255, .18);
+@define-color menu_focus_border rgba(180, 155, 255, .55);
